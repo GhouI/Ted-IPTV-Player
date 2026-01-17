@@ -75,7 +75,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Create FocusableButton component with TV focus states
 - [x] Create FocusableCard component for grid items
 - [x] Create Grid component with spatial navigation support
-- [ ] Create Modal component with focus trapping
+- [x] Create Modal component with focus trapping
 - [ ] Create Toast component for notifications
 - [ ] Create Skeleton component for loading states
 - [ ] Define TypeScript types for Channel, Category, Program

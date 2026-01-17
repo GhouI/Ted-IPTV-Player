@@ -1450,3 +1450,27 @@ package.json
 package-lock.json
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for channel state (categories
+Status: completed
+Time: 23:37:25
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/stores/channelStore.test.ts
+src/core/stores/channelStore.ts
+src/core/stores/index.ts
+---
+2026-01-17: Create Zustand store for VOD state (categories, movies)
+Status: completed
+Time: 23:39:09
+Files Changed:
+src/core/stores/vodStore.ts
+src/core/stores/vodStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+

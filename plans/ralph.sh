@@ -1327,7 +1327,10 @@ run_single_task() {
       log_warn "Task not marked complete in PRD - skipping notification"
     fi
 
-    # Push changes to remote after each task
+    # Commit any uncommitted changes and push to remote
+    if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
+      git add -A && git commit -m "Task: ${current_task:0:50}" 2>/dev/null || true
+    fi
     git push origin "$BASE_BRANCH" 2>/dev/null || log_warn "Failed to push changes"
 
     # Create PR if requested

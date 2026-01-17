@@ -372,6 +372,244 @@ describe('XtreamClient', () => {
     })
   })
 
+  describe('getLiveCategories', () => {
+    const mockCategoriesResponse = [
+      { category_id: '1', category_name: 'News', parent_id: 0 },
+      { category_id: '2', category_name: 'Sports', parent_id: 0 },
+      { category_id: '3', category_name: 'Football', parent_id: 2 },
+    ]
+
+    it('should fetch and normalize live categories', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockCategoriesResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getLiveCategories()
+
+      expect(categories).toHaveLength(3)
+      expect(categories[0]).toEqual({
+        id: '1',
+        name: 'News',
+        parentId: '0',
+      })
+      expect(categories[1]).toEqual({
+        id: '2',
+        name: 'Sports',
+        parentId: '0',
+      })
+      expect(categories[2]).toEqual({
+        id: '3',
+        name: 'Football',
+        parentId: '2',
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getLiveCategories()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_live_categories')
+    })
+
+    it('should handle empty category list', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getLiveCategories()
+      expect(categories).toEqual([])
+    })
+
+    it('should handle categories without parent_id', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([{ category_id: '1', category_name: 'General' }]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getLiveCategories()
+      expect(categories[0].parentId).toBeUndefined()
+    })
+  })
+
+  describe('getLiveStreams', () => {
+    const mockStreamsResponse = [
+      {
+        num: 1,
+        name: 'CNN',
+        stream_type: 'live',
+        stream_id: 101,
+        stream_icon: 'http://example.com/cnn.png',
+        epg_channel_id: 'cnn.us',
+        added: '1609459200',
+        is_adult: '0',
+        category_id: '1',
+        custom_sid: '',
+        tv_archive: 0,
+        direct_source: '',
+        tv_archive_duration: 0,
+      },
+      {
+        num: 2,
+        name: 'ESPN',
+        stream_type: 'live',
+        stream_id: 102,
+        stream_icon: '',
+        epg_channel_id: null,
+        added: '1609459200',
+        is_adult: '0',
+        category_id: '2',
+        custom_sid: '',
+        tv_archive: 0,
+        direct_source: '',
+        tv_archive_duration: 0,
+      },
+    ]
+
+    it('should fetch and normalize live streams', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockStreamsResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const streams = await client.getLiveStreams()
+
+      expect(streams).toHaveLength(2)
+      expect(streams[0]).toEqual({
+        id: '101',
+        name: 'CNN',
+        number: 1,
+        logo: 'http://example.com/cnn.png',
+        categoryId: '1',
+        streamUrl: 'http://example.com:8080/live/testuser/testpass/101.ts',
+        streamType: 'live',
+        epgChannelId: 'cnn.us',
+        isAvailable: true,
+      })
+      expect(streams[1]).toEqual({
+        id: '102',
+        name: 'ESPN',
+        number: 2,
+        logo: undefined,
+        categoryId: '2',
+        streamUrl: 'http://example.com:8080/live/testuser/testpass/102.ts',
+        streamType: 'live',
+        epgChannelId: undefined,
+        isAvailable: true,
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getLiveStreams()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_live_streams')
+      expect(calledUrl.searchParams.has('category_id')).toBe(false)
+    })
+
+    it('should filter by category when categoryId is provided', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getLiveStreams('5')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('category_id')).toBe('5')
+    })
+
+    it('should handle empty stream list', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const streams = await client.getLiveStreams()
+      expect(streams).toEqual([])
+    })
+  })
+
+  describe('getLiveStreamsByCategory', () => {
+    it('should call getLiveStreams with category ID', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getLiveStreamsByCategory('3')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_live_streams')
+      expect(calledUrl.searchParams.get('category_id')).toBe('3')
+    })
+  })
+
   describe('buildStreamUrl', () => {
     it('should build live stream URL with default ts format', () => {
       const client = new XtreamClient({

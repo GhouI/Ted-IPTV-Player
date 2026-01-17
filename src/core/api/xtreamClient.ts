@@ -11,6 +11,7 @@ import type {
   XtreamUserInfo,
   XtreamServerInfo,
 } from '../types/source'
+import type { Category, Channel } from '../types/channel'
 
 /**
  * Error thrown when Xtream API requests fail
@@ -56,6 +57,35 @@ interface RawAuthResponse {
 }
 
 /**
+ * Raw category response from Xtream API
+ */
+interface RawCategory {
+  category_id: string
+  category_name: string
+  parent_id?: number | string
+}
+
+/**
+ * Raw live stream response from Xtream API
+ */
+interface RawLiveStream {
+  num: number
+  name: string
+  stream_type: string
+  stream_id: number
+  stream_icon: string
+  epg_channel_id: string | null
+  added: string
+  is_adult: string | number
+  category_id: string
+  category_ids?: number[]
+  custom_sid: string
+  tv_archive: number
+  direct_source: string
+  tv_archive_duration: number
+}
+
+/**
  * Normalizes the raw Xtream auth response to our typed format
  */
 function normalizeAuthResponse(raw: RawAuthResponse): XtreamAuthResponse {
@@ -88,6 +118,42 @@ function normalizeAuthResponse(raw: RawAuthResponse): XtreamAuthResponse {
   }
 
   return { userInfo, serverInfo }
+}
+
+/**
+ * Normalizes a raw Xtream category to our Category type
+ */
+function normalizeLiveCategory(raw: RawCategory): Category {
+  return {
+    id: raw.category_id,
+    name: raw.category_name,
+    parentId: raw.parent_id !== undefined ? String(raw.parent_id) : undefined,
+  }
+}
+
+/**
+ * Normalizes a raw Xtream live stream to our Channel type
+ */
+function normalizeLiveStream(
+  raw: RawLiveStream,
+  baseUrl: string,
+  username: string,
+  password: string
+): Channel {
+  const streamId = raw.stream_id
+  const streamUrl = `${baseUrl}/live/${username}/${password}/${streamId}.ts`
+
+  return {
+    id: String(streamId),
+    name: raw.name,
+    number: raw.num,
+    logo: raw.stream_icon || undefined,
+    categoryId: raw.category_id,
+    streamUrl,
+    streamType: 'live',
+    epgChannelId: raw.epg_channel_id || undefined,
+    isAvailable: true,
+  }
 }
 
 /**
@@ -295,6 +361,45 @@ export class XtreamClient {
     const defaultFormat = type === 'live' ? 'ts' : 'm3u8'
     const ext = format ?? defaultFormat
     return `${this.baseUrl}/${type}/${this.username}/${this.password}/${streamId}.${ext}`
+  }
+
+  /**
+   * Fetches all live TV categories
+   *
+   * @returns Array of categories for live streams
+   * @throws XtreamApiError if the request fails
+   */
+  async getLiveCategories(): Promise<Category[]> {
+    const rawCategories = await this.request<RawCategory[]>('get_live_categories')
+    return rawCategories.map(normalizeLiveCategory)
+  }
+
+  /**
+   * Fetches all live TV streams/channels
+   *
+   * @param categoryId - Optional category ID to filter streams
+   * @returns Array of channels
+   * @throws XtreamApiError if the request fails
+   */
+  async getLiveStreams(categoryId?: string): Promise<Channel[]> {
+    const params: Record<string, string> = {}
+    if (categoryId) {
+      params.category_id = categoryId
+    }
+
+    const rawStreams = await this.request<RawLiveStream[]>('get_live_streams', params)
+    return rawStreams.map((stream) => normalizeLiveStream(stream, this.baseUrl, this.username, this.password))
+  }
+
+  /**
+   * Fetches live streams for a specific category
+   *
+   * @param categoryId - The category ID to fetch streams for
+   * @returns Array of channels in the category
+   * @throws XtreamApiError if the request fails
+   */
+  async getLiveStreamsByCategory(categoryId: string): Promise<Channel[]> {
+    return this.getLiveStreams(categoryId)
   }
 }
 

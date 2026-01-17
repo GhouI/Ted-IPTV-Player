@@ -23,3 +23,46 @@
 - src/test/setup.ts (test setup with jest-dom)
 - index.html (updated title)
 - PRD.md (marked first task complete)
+
+## 2026-01-17: Configure Tailwind CSS with TV-optimized focus states
+
+### Completed
+- Installed Tailwind CSS v4 with @tailwindcss/vite plugin
+- Configured Vite to use Tailwind CSS plugin
+- Created comprehensive TV-optimized theme in src/index.css:
+  - Custom color palette for dark TV interface (tv-bg, tv-surface, tv-accent, etc.)
+  - TV-optimized spacing variables (larger for remote navigation)
+  - TV-optimized font sizes (larger for 10-foot viewing distance)
+  - Focus ring configuration (4px ring width, 2px offset)
+  - Animation durations tuned for TV (slightly slower)
+  - Border radius tokens for consistent UI
+- Created TV-focused utility classes:
+  - tv-focus-ring: Prominent focus ring with glow effect
+  - tv-focus-scale: Scale transform on focus (1.05x)
+  - tv-focus-glow: Glowing box shadow for focused cards
+  - tv-focus-border: Border color change on focus
+  - tv-focus-bg: Background color change on focus
+  - tv-focusable: Combined utility for interactive elements
+  - tv-card-focus: Card-specific focus with subtle scale (1.02x)
+  - tv-button-focus: Button-specific focus styling
+  - tv-menu-focus: Sidebar/menu item focus with left border
+- Added tv-selected and tv-disabled state classes
+- Updated App.tsx to use Tailwind classes instead of App.css
+- Removed App.css (no longer needed)
+- Fixed TypeScript config (removed unsupported erasableSyntaxOnly option)
+- Added tests for Tailwind TV configuration (16 tests)
+- Updated App.test.tsx with tests for Tailwind class application (5 tests total)
+- All 21 tests pass
+- All linting passes
+
+### Files Created/Modified
+- package.json (added tailwindcss, postcss, autoprefixer, @tailwindcss/vite)
+- vite.config.ts (added Tailwind CSS plugin)
+- src/index.css (complete rewrite with Tailwind v4 configuration)
+- src/App.tsx (updated to use Tailwind classes)
+- src/App.css (deleted)
+- src/App.test.tsx (added tests for Tailwind classes)
+- src/test/tailwind-tv.test.ts (new test file for TV configuration)
+- tsconfig.app.json (removed erasableSyntaxOnly option)
+- tsconfig.node.json (removed erasableSyntaxOnly option)
+- PRD.md (marked task complete)

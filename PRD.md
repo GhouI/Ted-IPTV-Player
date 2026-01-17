@@ -63,7 +63,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 ## Tasks
 
 - [x] Initialize Vite project with React 18 and TypeScript
-- [ ] Configure Tailwind CSS with TV-optimized focus states
+- [x] Configure Tailwind CSS with TV-optimized focus states
 - [ ] Set up ESLint and Prettier for code quality
 - [ ] Create base tsconfig with strict mode enabled
 - [ ] Configure Vite for production builds with code splitting

@@ -1,68 +1,196 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/*
+ * TV-optimized Tailwind CSS configuration for VIDAA/Hisense
+ * Focus states are extra prominent for 10-foot UI (viewing from couch)
+ */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+@theme {
+  /* TV-optimized color palette */
+  --color-tv-bg: #0a0a0a;
+  --color-tv-surface: #141414;
+  --color-tv-surface-hover: #1f1f1f;
+  --color-tv-border: #2a2a2a;
+  --color-tv-text: #ffffff;
+  --color-tv-text-muted: #a0a0a0;
+  --color-tv-text-dim: #666666;
+
+  /* Primary accent (focus/selection) */
+  --color-tv-accent: #3b82f6;
+  --color-tv-accent-light: #60a5fa;
+  --color-tv-accent-glow: rgba(59, 130, 246, 0.5);
+
+  /* Status colors */
+  --color-tv-success: #22c55e;
+  --color-tv-warning: #f59e0b;
+  --color-tv-error: #ef4444;
+
+  /* TV-optimized spacing (larger for remote navigation) */
+  --spacing-tv-xs: 0.5rem;
+  --spacing-tv-sm: 0.75rem;
+  --spacing-tv-md: 1rem;
+  --spacing-tv-lg: 1.5rem;
+  --spacing-tv-xl: 2rem;
+  --spacing-tv-2xl: 3rem;
+
+  /* TV-optimized font sizes (larger for 10-foot viewing) */
+  --font-size-tv-xs: 0.875rem;
+  --font-size-tv-sm: 1rem;
+  --font-size-tv-base: 1.125rem;
+  --font-size-tv-lg: 1.25rem;
+  --font-size-tv-xl: 1.5rem;
+  --font-size-tv-2xl: 2rem;
+  --font-size-tv-3xl: 2.5rem;
+  --font-size-tv-4xl: 3rem;
+
+  /* TV focus ring configuration */
+  --ring-width-tv: 4px;
+  --ring-offset-tv: 2px;
+
+  /* Animation speeds (slightly slower for TV) */
+  --duration-tv-fast: 150ms;
+  --duration-tv-normal: 200ms;
+  --duration-tv-slow: 300ms;
+
+  /* Border radius for TV UI */
+  --radius-tv-sm: 0.375rem;
+  --radius-tv-md: 0.5rem;
+  --radius-tv-lg: 0.75rem;
+  --radius-tv-xl: 1rem;
+}
+
+/* Base styles for TV interface */
+html {
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
+  @apply bg-tv-bg text-tv-text;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
+  overflow: hidden;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Remove default focus outlines - we use custom TV-optimized focus states */
+*:focus {
+  outline: none;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* TV-optimized focus state utility classes */
+@utility tv-focus-ring {
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 var(--ring-offset-tv) var(--color-tv-bg),
+      0 0 0 calc(var(--ring-offset-tv) + var(--ring-width-tv)) var(--color-tv-accent),
+      0 0 20px var(--color-tv-accent-glow);
+  }
+}
+
+@utility tv-focus-scale {
+  transition: transform var(--duration-tv-fast) ease-out;
+  &:focus-visible {
+    transform: scale(1.05);
+  }
+}
+
+@utility tv-focus-glow {
+  &:focus-visible {
+    box-shadow:
+      0 0 0 var(--ring-width-tv) var(--color-tv-accent),
+      0 0 30px var(--color-tv-accent-glow),
+      0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@utility tv-focus-border {
+  transition: border-color var(--duration-tv-fast) ease-out;
+  &:focus-visible {
+    border-color: var(--color-tv-accent);
+  }
+}
+
+@utility tv-focus-bg {
+  transition: background-color var(--duration-tv-fast) ease-out;
+  &:focus-visible {
+    background-color: var(--color-tv-surface-hover);
+  }
+}
+
+/* Combined TV focus utility for interactive elements */
+@utility tv-focusable {
+  @apply tv-focus-ring tv-focus-scale;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition:
+    transform var(--duration-tv-fast) ease-out,
+    box-shadow var(--duration-tv-fast) ease-out,
+    background-color var(--duration-tv-fast) ease-out;
+
+  &:focus-visible {
+    background-color: var(--color-tv-surface-hover);
+  }
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+/* Card-specific focus styling for grid items */
+@utility tv-card-focus {
+  @apply tv-focus-glow;
+  transition:
+    transform var(--duration-tv-fast) ease-out,
+    box-shadow var(--duration-tv-fast) ease-out;
+
+  &:focus-visible {
+    transform: scale(1.02);
+    z-index: 10;
   }
-  a:hover {
-    color: #747bff;
+}
+
+/* Button-specific focus styling */
+@utility tv-button-focus {
+  @apply tv-focus-ring;
+  transition:
+    background-color var(--duration-tv-fast) ease-out,
+    box-shadow var(--duration-tv-fast) ease-out;
+
+  &:focus-visible {
+    background-color: var(--color-tv-accent);
+    color: white;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+/* Sidebar/menu item focus */
+@utility tv-menu-focus {
+  transition:
+    background-color var(--duration-tv-fast) ease-out,
+    padding-left var(--duration-tv-fast) ease-out;
+
+  &:focus-visible {
+    background-color: var(--color-tv-surface-hover);
+    padding-left: calc(var(--spacing-tv-md) + 4px);
+    border-left: 4px solid var(--color-tv-accent);
   }
+}
+
+/* Ensure focusable elements are visible when focused */
+[tabindex]:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+}
+
+/* Selection/active state for currently selected items */
+.tv-selected {
+  background-color: var(--color-tv-accent);
+  color: white;
+}
+
+/* Disabled state */
+.tv-disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

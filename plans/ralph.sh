@@ -1328,13 +1328,16 @@ run_single_task() {
     fi
 
     # Commit any uncommitted changes and push to remote
+    git add -A 2>/dev/null || true
     if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
-      git add -A && git commit -m "Task: ${current_task:0:50}" 2>/dev/null || true
+      git commit -m "Task: ${current_task:0:50}" 2>/dev/null || true
     fi
-    # Push with retry - sometimes needs a second attempt
-    if ! git push origin "$BASE_BRANCH" 2>&1; then
+    # Push to current branch (not BASE_BRANCH, in case we're on a feature branch)
+    local current_branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "$BASE_BRANCH")
+    if ! git push origin "$current_branch" 2>&1; then
       sleep 1
-      git push origin "$BASE_BRANCH" 2>&1 || log_warn "Failed to push changes after retry"
+      git push origin "$current_branch" 2>&1 || log_warn "Failed to push changes after retry"
     fi
 
     # Create PR if requested

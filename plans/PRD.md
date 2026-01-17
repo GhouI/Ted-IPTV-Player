@@ -81,7 +81,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Define TypeScript types for Channel, Category, Program
 - [x] Define TypeScript types for VOD, Series, Episode
 - [x] Define TypeScript types for Source (Xtream and M3U)
-- [ ] Define TypeScript types for Player state and events
+- [x] Define TypeScript types for Player state and events
 - [ ] Implement Xtream Codes API client with authentication
 - [ ] Implement Xtream client methods for live streams and categories
 - [ ] Implement Xtream client methods for VOD streams and categories

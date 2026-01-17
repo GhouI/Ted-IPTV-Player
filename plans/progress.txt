@@ -1025,3 +1025,13 @@ plans/PRD.md
 plans/progress.txt
 src/core/types/source.test.ts
 src/core/types/source.ts
+
+---
+2026-01-17: Define TypeScript types for Player state and events
+Status: completed
+Time: 22:18:30
+Files Changed:
+src/core/types/player.ts
+src/core/types/player.test.ts
+plans/PRD.md
+plans/progress.txt

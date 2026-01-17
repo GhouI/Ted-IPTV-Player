@@ -73,7 +73,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Create VIDAA keymap configuration for remote control keys
 - [x] Implement back button handler with exit confirmation
 - [x] Create FocusableButton component with TV focus states
-- [ ] Create FocusableCard component for grid items
+- [x] Create FocusableCard component for grid items
 - [ ] Create Grid component with spatial navigation support
 - [ ] Create Modal component with focus trapping
 - [ ] Create Toast component for notifications

@@ -70,7 +70,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Add bundle analyzer plugin for size monitoring
 - [x] Create app shell with React Router setup
 - [x] Implement Norigin Spatial Navigation provider
-- [ ] Create VIDAA keymap configuration for remote control keys
+- [x] Create VIDAA keymap configuration for remote control keys
 - [ ] Implement back button handler with exit confirmation
 - [ ] Create FocusableButton component with TV focus states
 - [ ] Create FocusableCard component for grid items

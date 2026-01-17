@@ -12,6 +12,7 @@ import type {
   XtreamServerInfo,
 } from '../types/source'
 import type { Category, Channel } from '../types/channel'
+import type { VODCategory, VODItem } from '../types/vod'
 
 /**
  * Error thrown when Xtream API requests fail
@@ -86,6 +87,26 @@ interface RawLiveStream {
 }
 
 /**
+ * Raw VOD stream response from Xtream API
+ */
+interface RawVODStream {
+  num: number
+  name: string
+  stream_type: string
+  stream_id: number
+  stream_icon: string
+  rating: string
+  rating_5based: number
+  added: string
+  is_adult: string | number
+  category_id: string
+  category_ids?: number[]
+  container_extension: string
+  custom_sid: string
+  direct_source: string
+}
+
+/**
  * Normalizes the raw Xtream auth response to our typed format
  */
 function normalizeAuthResponse(raw: RawAuthResponse): XtreamAuthResponse {
@@ -153,6 +174,44 @@ function normalizeLiveStream(
     streamType: 'live',
     epgChannelId: raw.epg_channel_id || undefined,
     isAvailable: true,
+  }
+}
+
+/**
+ * Normalizes a raw Xtream category to our VODCategory type
+ */
+function normalizeVODCategory(raw: RawCategory): VODCategory {
+  return {
+    id: raw.category_id,
+    name: raw.category_name,
+    parentId: raw.parent_id !== undefined ? String(raw.parent_id) : undefined,
+  }
+}
+
+/**
+ * Normalizes a raw Xtream VOD stream to our VODItem type
+ */
+function normalizeVODStream(
+  raw: RawVODStream,
+  baseUrl: string,
+  username: string,
+  password: string
+): VODItem {
+  const streamId = raw.stream_id
+  const extension = raw.container_extension || 'm3u8'
+  const streamUrl = `${baseUrl}/movie/${username}/${password}/${streamId}.${extension}`
+
+  return {
+    id: String(streamId),
+    title: raw.name,
+    categoryId: raw.category_id,
+    streamUrl,
+    streamType: 'vod',
+    poster: raw.stream_icon || undefined,
+    rating: raw.rating || undefined,
+    score: raw.rating_5based > 0 ? raw.rating_5based : undefined,
+    containerFormat: raw.container_extension || undefined,
+    dateAdded: raw.added || undefined,
   }
 }
 
@@ -400,6 +459,47 @@ export class XtreamClient {
    */
   async getLiveStreamsByCategory(categoryId: string): Promise<Channel[]> {
     return this.getLiveStreams(categoryId)
+  }
+
+  /**
+   * Fetches all VOD (movie) categories
+   *
+   * @returns Array of VOD categories
+   * @throws XtreamApiError if the request fails
+   */
+  async getVODCategories(): Promise<VODCategory[]> {
+    const rawCategories = await this.request<RawCategory[]>('get_vod_categories')
+    return rawCategories.map(normalizeVODCategory)
+  }
+
+  /**
+   * Fetches all VOD streams/movies
+   *
+   * @param categoryId - Optional category ID to filter streams
+   * @returns Array of VOD items
+   * @throws XtreamApiError if the request fails
+   */
+  async getVODStreams(categoryId?: string): Promise<VODItem[]> {
+    const params: Record<string, string> = {}
+    if (categoryId) {
+      params.category_id = categoryId
+    }
+
+    const rawStreams = await this.request<RawVODStream[]>('get_vod_streams', params)
+    return rawStreams.map((stream) =>
+      normalizeVODStream(stream, this.baseUrl, this.username, this.password)
+    )
+  }
+
+  /**
+   * Fetches VOD streams for a specific category
+   *
+   * @param categoryId - The category ID to fetch streams for
+   * @returns Array of VOD items in the category
+   * @throws XtreamApiError if the request fails
+   */
+  async getVODStreamsByCategory(categoryId: string): Promise<VODItem[]> {
+    return this.getVODStreams(categoryId)
   }
 }
 

@@ -737,3 +737,284 @@ describe('XtreamApiError', () => {
     expect(error.name).toBe('XtreamApiError')
   })
 })
+
+describe('XtreamClient VOD methods', () => {
+  beforeEach(() => {
+    mockFetch.mockReset()
+  })
+
+  describe('getVODCategories', () => {
+    const mockVODCategoriesResponse = [
+      { category_id: '10', category_name: 'Action', parent_id: 0 },
+      { category_id: '11', category_name: 'Comedy', parent_id: 0 },
+      { category_id: '12', category_name: 'Thriller', parent_id: 10 },
+    ]
+
+    it('should fetch and normalize VOD categories', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockVODCategoriesResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getVODCategories()
+
+      expect(categories).toHaveLength(3)
+      expect(categories[0]).toEqual({
+        id: '10',
+        name: 'Action',
+        parentId: '0',
+      })
+      expect(categories[1]).toEqual({
+        id: '11',
+        name: 'Comedy',
+        parentId: '0',
+      })
+      expect(categories[2]).toEqual({
+        id: '12',
+        name: 'Thriller',
+        parentId: '10',
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getVODCategories()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_vod_categories')
+    })
+
+    it('should handle empty category list', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getVODCategories()
+      expect(categories).toEqual([])
+    })
+
+    it('should handle categories without parent_id', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([{ category_id: '10', category_name: 'Movies' }]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getVODCategories()
+      expect(categories[0].parentId).toBeUndefined()
+    })
+  })
+
+  describe('getVODStreams', () => {
+    const mockVODStreamsResponse = [
+      {
+        num: 1,
+        name: 'The Matrix',
+        stream_type: 'movie',
+        stream_id: 1001,
+        stream_icon: 'http://example.com/matrix.jpg',
+        rating: 'R',
+        rating_5based: 4.5,
+        added: '1609459200',
+        is_adult: '0',
+        category_id: '10',
+        container_extension: 'mkv',
+        custom_sid: '',
+        direct_source: '',
+      },
+      {
+        num: 2,
+        name: 'Inception',
+        stream_type: 'movie',
+        stream_id: 1002,
+        stream_icon: '',
+        rating: '',
+        rating_5based: 0,
+        added: '1609459200',
+        is_adult: '0',
+        category_id: '10',
+        container_extension: 'mp4',
+        custom_sid: '',
+        direct_source: '',
+      },
+    ]
+
+    it('should fetch and normalize VOD streams', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockVODStreamsResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const streams = await client.getVODStreams()
+
+      expect(streams).toHaveLength(2)
+      expect(streams[0]).toEqual({
+        id: '1001',
+        title: 'The Matrix',
+        categoryId: '10',
+        streamUrl: 'http://example.com:8080/movie/testuser/testpass/1001.mkv',
+        streamType: 'vod',
+        poster: 'http://example.com/matrix.jpg',
+        rating: 'R',
+        score: 4.5,
+        containerFormat: 'mkv',
+        dateAdded: '1609459200',
+      })
+      expect(streams[1]).toEqual({
+        id: '1002',
+        title: 'Inception',
+        categoryId: '10',
+        streamUrl: 'http://example.com:8080/movie/testuser/testpass/1002.mp4',
+        streamType: 'vod',
+        poster: undefined,
+        rating: undefined,
+        score: undefined,
+        containerFormat: 'mp4',
+        dateAdded: '1609459200',
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getVODStreams()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_vod_streams')
+      expect(calledUrl.searchParams.has('category_id')).toBe(false)
+    })
+
+    it('should filter by category when categoryId is provided', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getVODStreams('10')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('category_id')).toBe('10')
+    })
+
+    it('should handle empty stream list', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const streams = await client.getVODStreams()
+      expect(streams).toEqual([])
+    })
+
+    it('should use m3u8 extension when container_extension is empty', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve([
+            {
+              num: 1,
+              name: 'Test Movie',
+              stream_type: 'movie',
+              stream_id: 2001,
+              stream_icon: '',
+              rating: '',
+              rating_5based: 0,
+              added: '',
+              is_adult: '0',
+              category_id: '10',
+              container_extension: '',
+              custom_sid: '',
+              direct_source: '',
+            },
+          ]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const streams = await client.getVODStreams()
+      expect(streams[0].streamUrl).toBe(
+        'http://example.com:8080/movie/testuser/testpass/2001.m3u8'
+      )
+    })
+  })
+
+  describe('getVODStreamsByCategory', () => {
+    it('should call getVODStreams with category ID', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getVODStreamsByCategory('10')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_vod_streams')
+      expect(calledUrl.searchParams.get('category_id')).toBe('10')
+    })
+  })
+})

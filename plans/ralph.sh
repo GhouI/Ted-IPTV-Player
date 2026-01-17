@@ -1327,19 +1327,18 @@ run_single_task() {
       log_warn "Task not marked complete in PRD - skipping notification"
     fi
 
-    # Commit any uncommitted changes and push to remote
+    # Push to current branch - Claude should have already committed
+    # Only commit if there are actual code changes (not just progress.txt)
     git add -A 2>/dev/null || true
-    if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
+    local changes
+    changes=$(git diff --cached --name-only 2>/dev/null | grep -v 'progress.txt' | head -1)
+    if [[ -n "$changes" ]]; then
       git commit -m "Task: ${current_task:0:50}" 2>/dev/null || true
     fi
-    # Push to current branch (use force-with-lease for feature branches to handle rebases)
+    # Push whatever Claude committed
     local current_branch
     current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "$BASE_BRANCH")
-    if ! git push origin "$current_branch" 2>&1; then
-      sleep 1
-      # Try force-with-lease if normal push fails (handles rebase situations)
-      git push --force-with-lease origin "$current_branch" 2>&1 || log_warn "Failed to push changes"
-    fi
+    git push origin "$current_branch" 2>&1 || git push --force-with-lease origin "$current_branch" 2>&1 || log_warn "Failed to push"
 
     # Create PR if requested
     if [[ "$CREATE_PR" == true ]] && [[ -n "$branch_name" ]]; then

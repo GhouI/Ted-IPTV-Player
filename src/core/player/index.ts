@@ -21,3 +21,5 @@ export {
   isDRMKeySystemSupported,
   DRM_KEY_SYSTEMS,
 } from './capabilityDetector'
+
+export { BasePlayerAdapter } from './BasePlayerAdapter'

@@ -16,3 +16,16 @@ export {
   M3UParseError,
 } from './m3uParser'
 export type { M3UItem, M3UHeader, M3UPlaylist } from './m3uParser'
+
+export {
+  generateCategoryId,
+  generateChannelId,
+  detectStreamType,
+  extractCategories,
+  extractChannels,
+  adaptM3UPlaylist,
+  getChannelsByCategory,
+  findChannelByEpgId,
+  getChannelCountByCategory,
+} from './m3uAdapter'
+export type { M3UAdapterOptions, M3UAdapterResult } from './m3uAdapter'

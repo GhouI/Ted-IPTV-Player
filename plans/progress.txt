@@ -1159,3 +1159,27 @@ package.json
 package-lock.json
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Implement M3U playlist parser wrapper using iptv-m
+Status: completed
+Time: 22:39:47
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/m3uParser.test.ts
+src/core/api/m3uParser.ts
+---
+2026-01-17: Implement M3U adapter to extract channels and categories
+Status: completed
+Time: 22:41:55
+Files Changed:
+src/core/api/m3uAdapter.ts
+src/core/api/m3uAdapter.test.ts
+src/core/api/index.ts
+plans/PRD.md
+plans/progress.txt
+

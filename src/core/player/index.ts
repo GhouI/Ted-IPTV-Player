@@ -23,3 +23,4 @@ export {
 } from './capabilityDetector'
 
 export { BasePlayerAdapter } from './BasePlayerAdapter'
+export { NativePlayerAdapter } from './NativePlayerAdapter'

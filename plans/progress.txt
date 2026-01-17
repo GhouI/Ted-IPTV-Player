@@ -1297,3 +1297,16 @@ plans/progress.txt
 src/core/player/BasePlayerAdapter.test.ts
 src/core/player/BasePlayerAdapter.ts
 src/core/player/index.ts
+
+---
+2026-01-17: Implement NativePlayer adapter as fallback for direct streams
+Status: completed
+Time: 23:13:15
+Files Changed:
+src/core/player/NativePlayerAdapter.ts
+src/core/player/NativePlayerAdapter.test.ts
+src/core/player/index.ts
+src/types/html-media.d.ts
+plans/PRD.md
+plans/progress.txt
+

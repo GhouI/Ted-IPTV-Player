@@ -1415,3 +1415,25 @@ src/core/epg/timeSync.test.ts
 src/core/epg/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Implement EPG time sync utility for accurate progr
+Status: completed
+Time: 23:34:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/index.ts
+src/core/epg/timeSync.test.ts
+src/core/epg/timeSync.ts
+
+---
+2026-01-17: Create Zustand store for source management (add, r
+Status: completed
+Time: 23:34:53
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/index.ts
+src/core/epg/timeSync.test.ts
+src/core/epg/timeSync.ts

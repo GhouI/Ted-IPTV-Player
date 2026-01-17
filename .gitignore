@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ralph automation generated files
+plans/progress.txt
+plans/progress.json

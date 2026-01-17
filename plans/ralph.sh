@@ -30,13 +30,17 @@ CREATE_PR=false
 BASE_BRANCH=""
 PR_DRAFT=false
 
+# Discord webhook for notifications
+DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/1457402979014414417/qgJCgVEGofh7t4Tg0Pt1q3jZ9WRp4ZHCHR176tTNcqxB3ZgXGOABUKrZycoh464Xwh3c"
+
 # Parallel execution
 PARALLEL=false
 MAX_PARALLEL=3
 
 # PRD source options
 PRD_SOURCE="markdown"  # markdown, yaml, github
-PRD_FILE="PRD.md"
+PRD_FILE="plans/PRD.md"
+PROGRESS_FILE="plans/progress.txt"
 GITHUB_REPO=""
 GITHUB_LABEL=""
 
@@ -379,10 +383,11 @@ check_requirements() {
     log_warn "Token tracking may not work properly"
   fi
 
-  # Create progress.txt if missing
-  if [[ ! -f "progress.txt" ]]; then
-    log_warn "progress.txt not found, creating it..."
-    touch progress.txt
+  # Create progress file if missing
+  if [[ ! -f "$PROGRESS_FILE" ]]; then
+    log_warn "$PROGRESS_FILE not found, creating it..."
+    mkdir -p "$(dirname "$PROGRESS_FILE")"
+    touch "$PROGRESS_FILE"
   fi
 
   # Set base branch if not specified
@@ -607,6 +612,93 @@ mark_task_complete() {
 }
 
 # ============================================
+# PROGRESS & NOTIFICATION FUNCTIONS
+# ============================================
+
+write_progress_entry() {
+  local task_name="$1"
+  local status="$2"  # "completed" or "failed"
+  local files_changed="$3"
+  local date_str=$(date +"%Y-%m-%d")
+  local time_str=$(date +"%H:%M:%S")
+
+  {
+    echo ""
+    echo "---"
+    echo "${date_str}: ${task_name}"
+    echo "Status: ${status}"
+    echo "Time: ${time_str}"
+    if [[ -n "$files_changed" ]]; then
+      echo "Files Changed:"
+      echo "$files_changed"
+    fi
+  } >> "$PROGRESS_FILE"
+}
+
+output_task_json() {
+  local task_name="$1"
+  local status="$2"
+  local files_changed="$3"
+  local input_tokens="$4"
+  local output_tokens="$5"
+  local iter="$6"
+  local remaining="$7"
+  local completed="$8"
+
+  local json_file="${PROGRESS_FILE%.txt}.json"
+
+  # Create JSON entry
+  cat > "$json_file" << EOF
+{
+  "task_name": "$task_name",
+  "status": "$status",
+  "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "iteration": $iter,
+  "progress": {
+    "completed": $completed,
+    "remaining": $remaining,
+    "total": $((completed + remaining))
+  },
+  "tokens": {
+    "input": $input_tokens,
+    "output": $output_tokens
+  },
+  "files_changed": $(echo "$files_changed" | jq -R -s 'split("\n") | map(select(. != ""))' 2>/dev/null || echo "[]")
+}
+EOF
+}
+
+notify_discord() {
+  local task_name="$1"
+  local status="$2"
+  local completed="$3"
+  local remaining="$4"
+
+  # Build Discord embed payload
+  local total=$((completed + remaining))
+  local color=5763719  # Green
+  [[ "$status" == "failed" ]] && color=15158332  # Red
+
+  local payload=$(cat << EOF
+{
+  "embeds": [{
+    "author": {"name": "Task ${completed} / ${total} Completed"},
+    "title": "${task_name}",
+    "color": ${color},
+    "timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+    "footer": {"text": "Ralphy - ${AI_ENGINE}"}
+  }]
+}
+EOF
+)
+
+  curl -s -X POST \
+    -H "Content-Type: application/json" \
+    -d "$payload" \
+    "$DISCORD_WEBHOOK_URL" >/dev/null 2>&1 &
+}
+
+# ============================================
 # GIT BRANCH MANAGEMENT
 # ============================================
 
@@ -805,10 +897,10 @@ build_prompt() {
   # Add context based on PRD source
   case "$PRD_SOURCE" in
     markdown)
-      prompt="@${PRD_FILE} @progress.txt"
+      prompt="@${PRD_FILE} @${PROGRESS_FILE}"
       ;;
     yaml)
-      prompt="@${PRD_FILE} @progress.txt"
+      prompt="@${PRD_FILE} @${PROGRESS_FILE}"
       ;;
     github)
       # For GitHub issues, we include the issue body
@@ -821,7 +913,7 @@ build_prompt() {
 Issue Description:
 $issue_body
 
-@progress.txt"
+@${PROGRESS_FILE}"
       ;;
   esac
 
@@ -862,8 +954,8 @@ $step. The task will be marked complete automatically. Just note the completion 
   step=$((step+1))
 
   prompt="$prompt
-$step. Append your progress to progress.txt.
-$((step+1)). Commit your changes with a descriptive message.
+$step. Append your progress to ${PROGRESS_FILE}.
+$((step+1)). Commit your changes with a descriptive message using 'git add . && git commit -m \"your message\"'. Do NOT add Co-Authored-By lines.
 ONLY WORK ON A SINGLE TASK."
 
   if [[ "$SKIP_TESTS" == false ]]; then
@@ -1205,6 +1297,23 @@ run_single_task() {
       CODEX_LAST_MESSAGE_FILE=""
     fi
 
+    # Get updated counts for notifications
+    local new_remaining new_completed files_changed
+    new_remaining=$(count_remaining_tasks | tr -d '[:space:]')
+    new_completed=$(count_completed_tasks | tr -d '[:space:]')
+    new_remaining=${new_remaining:-0}
+    new_completed=${new_completed:-0}
+    files_changed=$(git diff --name-only HEAD~1 2>/dev/null || echo "")
+
+    # Write progress entry directly
+    write_progress_entry "$current_task" "completed" "$files_changed"
+
+    # Output JSON for integrations
+    output_task_json "$current_task" "completed" "$files_changed" "$input_tokens" "$output_tokens" "$task_num" "$new_remaining" "$new_completed"
+
+    # Send Discord notification
+    notify_discord "$current_task" "completed" "$new_completed" "$new_remaining"
+
     # Mark task complete for GitHub issues (since AI can't do it)
     if [[ "$PRD_SOURCE" == "github" ]]; then
       mark_task_complete "$current_task"
@@ -1355,7 +1464,7 @@ Instructions:
 1. Implement this specific task completely
 2. Write tests if appropriate
 3. Update progress.txt with what you did
-4. Commit your changes with a descriptive message
+4. Commit your changes using 'git add . && git commit -m \"your message\"'. Do NOT add Co-Authored-By lines.
 
 Do NOT modify PRD.md or mark tasks complete - that will be handled separately.
 Focus only on implementing: $task_name"
@@ -1700,6 +1809,22 @@ run_parallel_tasks() {
             elif [[ "$PRD_SOURCE" == "github" ]]; then
               mark_task_complete_github "$task"
             fi
+
+            # Get updated counts for notifications
+            local par_remaining par_completed
+            par_remaining=$(count_remaining_tasks | tr -d '[:space:]')
+            par_completed=$(count_completed_tasks | tr -d '[:space:]')
+            par_remaining=${par_remaining:-0}
+            par_completed=${par_completed:-0}
+
+            # Write progress entry directly
+            write_progress_entry "$task" "completed" ""
+
+            # Output JSON for integrations
+            output_task_json "$task" "completed" "" "$in_tok" "$out_tok" "$agent_num" "$par_remaining" "$par_completed"
+
+            # Send Discord notification
+            notify_discord "$task" "completed" "$par_completed" "$par_remaining"
             ;;
           failed)
             icon="✗"
@@ -1707,6 +1832,19 @@ run_parallel_tasks() {
             if [[ -s "$log_file" ]]; then
               branch_info=" ${DIM}(error below)${RESET}"
             fi
+
+            # Get counts for failed notification
+            local fail_remaining fail_completed
+            fail_remaining=$(count_remaining_tasks | tr -d '[:space:]')
+            fail_completed=$(count_completed_tasks | tr -d '[:space:]')
+            fail_remaining=${fail_remaining:-0}
+            fail_completed=${fail_completed:-0}
+
+            # Write progress entry for failure
+            write_progress_entry "$task" "failed" ""
+
+            # Send Discord notification for failure
+            notify_discord "$task" "failed" "$fail_completed" "$fail_remaining"
             ;;
           *)
             icon="?"

@@ -1136,3 +1136,26 @@ src/core/api/xtreamClient.ts
 src/core/api/xtreamClient.test.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client method for EPG data
+Status: completed
+Time: 22:34:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/xtreamClient.test.ts
+src/core/api/xtreamClient.ts
+
+---
+2026-01-17: Implement M3U playlist parser wrapper using iptv-playlist-parser
+Status: completed
+Time: 22:39:00
+Files Changed:
+src/core/api/m3uParser.ts
+src/core/api/m3uParser.test.ts
+src/core/api/index.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt

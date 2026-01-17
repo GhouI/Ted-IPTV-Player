@@ -30,8 +30,8 @@ CREATE_PR=false
 BASE_BRANCH=""
 PR_DRAFT=false
 
-# Discord webhook for notifications
-DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/1457402979014414417/qgJCgVEGofh7t4Tg0Pt1q3jZ9WRp4ZHCHR176tTNcqxB3ZgXGOABUKrZycoh464Xwh3c"
+# Discord webhook for notifications (set via environment variable)
+DISCORD_WEBHOOK_URL="${DISCORD_WEBHOOK_URL:-}"
 
 # Parallel execution
 PARALLEL=false
@@ -669,6 +669,9 @@ EOF
 }
 
 notify_discord() {
+  # Skip if no webhook URL configured
+  [[ -z "$DISCORD_WEBHOOK_URL" ]] && return 0
+
   local task_name="$1"
   local status="$2"
   local completed="$3"

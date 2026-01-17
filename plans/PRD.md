@@ -97,7 +97,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Implement NativePlayer adapter as fallback for direct streams
 - [x] Implement player factory with capability-based selection
 - [x] Implement EPG parser for XMLTV format
-- [ ] Implement EPG cache with time-based invalidation
+- [x] Implement EPG cache with time-based invalidation
 - [ ] Implement EPG time sync utility for accurate program times
 - [ ] Create Zustand store for source management (add, remove, switch)
 - [ ] Create Zustand store for channel state (categories, channels, current)

@@ -1370,3 +1370,26 @@ src/core/epg/xmltvParser.test.ts
 src/core/epg/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Implement EPG parser for XMLTV format
+Status: completed
+Time: 23:28:03
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/index.ts
+src/core/epg/xmltvParser.test.ts
+src/core/epg/xmltvParser.ts
+
+---
+2026-01-17: Implement EPG cache with time-based invalidation
+Status: completed
+Time: 23:31:00
+Files Changed:
+src/core/epg/epgCache.ts
+src/core/epg/epgCache.test.ts
+src/core/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+

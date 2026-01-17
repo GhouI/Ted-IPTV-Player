@@ -15,3 +15,9 @@ export {
   type SeriesState,
   type SeriesActions,
 } from './seriesStore'
+
+export {
+  useEPGStore,
+  type EPGState,
+  type EPGActions,
+} from './epgStore'

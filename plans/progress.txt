@@ -1496,3 +1496,25 @@ src/core/stores/seriesStore.test.ts
 src/core/stores/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for series state (series, sea
+Status: completed
+Time: 23:41:48
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/index.ts
+src/core/stores/seriesStore.test.ts
+src/core/stores/seriesStore.ts
+
+---
+2026-01-17: Create Zustand store for EPG state (programs by channel)
+Status: completed
+Time: 23:44:00
+Files Changed:
+src/core/stores/epgStore.ts
+src/core/stores/epgStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt

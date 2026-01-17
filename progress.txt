@@ -1,0 +1,25 @@
+## 2026-01-17: Initialize Vite project with React 18 and TypeScript
+
+### Completed
+- Initialized Vite project with React 18 + TypeScript template
+- Downgraded from React 19 (default template) to React 18 as per PRD requirements
+- Updated package.json with project name "ted" and description
+- Added Vitest for testing with jsdom environment
+- Added @testing-library/react and @testing-library/jest-dom for component testing
+- Created basic App component with "Ted IPTV Player" branding
+- Created App.test.tsx with tests for title and description rendering
+- Fixed ESLint configuration for flat config compatibility
+- All tests pass (2 tests)
+- All linting passes
+
+### Files Created/Modified
+- package.json (updated dependencies, name, description, test scripts)
+- vite.config.ts (added Vitest configuration)
+- tsconfig.app.json (added vitest and testing-library types)
+- eslint.config.js (fixed flat config format)
+- src/App.tsx (simplified for IPTV player)
+- src/App.css (simplified styles)
+- src/App.test.tsx (new test file)
+- src/test/setup.ts (test setup with jest-dom)
+- index.html (updated title)
+- PRD.md (marked first task complete)

@@ -1,0 +1,501 @@
+/**
+ * Tests for Xtream Codes API client
+ */
+
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { XtreamClient, XtreamApiError, createAuthenticatedClient } from './xtreamClient'
+import type { XtreamSource } from '../types/source'
+
+// Mock fetch globally
+const mockFetch = vi.fn()
+vi.stubGlobal('fetch', mockFetch)
+
+describe('XtreamClient', () => {
+  beforeEach(() => {
+    mockFetch.mockReset()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  const mockAuthResponse = {
+    user_info: {
+      username: 'testuser',
+      password: 'testpass',
+      auth: 1,
+      status: 'Active',
+      exp_date: '1735689600', // 2025-01-01
+      is_trial: '0',
+      active_cons: '1',
+      created_at: '1609459200',
+      max_connections: '2',
+      allowed_output_formats: ['m3u8', 'ts'],
+    },
+    server_info: {
+      url: 'http://example.com',
+      port: '8080',
+      https_port: '8443',
+      server_protocol: 'http',
+      rtmp_port: '1935',
+      timezone: 'UTC',
+      timestamp_now: 1704067200,
+      time_format: '24h',
+    },
+  }
+
+  describe('constructor', () => {
+    it('should create a client with provided config', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      expect(client.getServerUrl()).toBe('http://example.com:8080')
+    })
+
+    it('should remove trailing slashes from server URL', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080///',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      expect(client.getServerUrl()).toBe('http://example.com:8080')
+    })
+  })
+
+  describe('fromSource', () => {
+    it('should create a client from an XtreamSource', () => {
+      const source: XtreamSource = {
+        id: '123',
+        name: 'Test Source',
+        type: 'xtream',
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+        createdAt: Date.now(),
+      }
+
+      const client = XtreamClient.fromSource(source)
+      expect(client.getServerUrl()).toBe('http://example.com:8080')
+    })
+  })
+
+  describe('authenticate', () => {
+    it('should authenticate successfully and return normalized response', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockAuthResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const result = await client.authenticate()
+
+      expect(result.userInfo.username).toBe('testuser')
+      expect(result.userInfo.status).toBe('Active')
+      expect(result.userInfo.isTrial).toBe(false)
+      expect(result.userInfo.activeCons).toBe(1)
+      expect(result.userInfo.maxConnections).toBe(2)
+      expect(result.serverInfo.url).toBe('http://example.com')
+      expect(result.serverInfo.port).toBe('8080')
+      expect(result.serverInfo.serverProtocol).toBe('http')
+    })
+
+    it('should call the correct API URL', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockAuthResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+
+      expect(mockFetch).toHaveBeenCalledTimes(1)
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.pathname).toBe('/player_api.php')
+      expect(calledUrl.searchParams.get('username')).toBe('testuser')
+      expect(calledUrl.searchParams.get('password')).toBe('testpass')
+    })
+
+    it('should throw XtreamApiError on HTTP error', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await expect(client.authenticate()).rejects.toThrow('HTTP error 500')
+    })
+
+    it('should throw XtreamApiError on authentication failure', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            user_info: { auth: 0 },
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'wrongpass',
+      })
+
+      await expect(client.authenticate()).rejects.toThrow('Authentication failed')
+    })
+
+    it('should throw XtreamApiError on network error', async () => {
+      mockFetch.mockRejectedValueOnce(new Error('Network error'))
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await expect(client.authenticate()).rejects.toThrow(XtreamApiError)
+      await expect(client.authenticate()).rejects.toThrow('Request failed')
+    })
+
+    it('should handle timeout', async () => {
+      vi.useFakeTimers()
+
+      const abortError = new Error('Abort')
+      abortError.name = 'AbortError'
+
+      mockFetch.mockImplementation(() => {
+        return new Promise((_, reject) => {
+          setTimeout(() => reject(abortError), 100)
+        })
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+        timeout: 50,
+      })
+
+      const authPromise = client.authenticate()
+      vi.advanceTimersByTime(100)
+
+      await expect(authPromise).rejects.toThrow('timeout')
+    })
+  })
+
+  describe('getAuthResponse', () => {
+    it('should return null before authentication', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      expect(client.getAuthResponse()).toBeNull()
+    })
+
+    it('should return auth response after authentication', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockAuthResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+      expect(client.getAuthResponse()).not.toBeNull()
+      expect(client.getAuthResponse()?.userInfo.username).toBe('testuser')
+    })
+  })
+
+  describe('isAccountActive', () => {
+    it('should return false before authentication', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      expect(client.isAccountActive()).toBe(false)
+    })
+
+    it('should return true for active account with future expiration', async () => {
+      const futureTimestamp = Math.floor(Date.now() / 1000) + 86400 * 30 // 30 days from now
+      const response = {
+        ...mockAuthResponse,
+        user_info: {
+          ...mockAuthResponse.user_info,
+          status: 'Active',
+          exp_date: futureTimestamp.toString(),
+        },
+      }
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(response),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+      expect(client.isAccountActive()).toBe(true)
+    })
+
+    it('should return false for expired account', async () => {
+      const pastTimestamp = Math.floor(Date.now() / 1000) - 86400 // Yesterday
+      const response = {
+        ...mockAuthResponse,
+        user_info: {
+          ...mockAuthResponse.user_info,
+          status: 'Active',
+          exp_date: pastTimestamp.toString(),
+        },
+      }
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(response),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+      expect(client.isAccountActive()).toBe(false)
+    })
+
+    it('should return false for disabled account', async () => {
+      const response = {
+        ...mockAuthResponse,
+        user_info: {
+          ...mockAuthResponse.user_info,
+          status: 'Disabled',
+        },
+      }
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(response),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+      expect(client.isAccountActive()).toBe(false)
+    })
+  })
+
+  describe('getExpirationDate', () => {
+    it('should return null before authentication', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      expect(client.getExpirationDate()).toBeNull()
+    })
+
+    it('should return Date object for valid expiration', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockAuthResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+      const expDate = client.getExpirationDate()
+      expect(expDate).toBeInstanceOf(Date)
+    })
+
+    it('should return null for null expiration date', async () => {
+      const response = {
+        ...mockAuthResponse,
+        user_info: {
+          ...mockAuthResponse.user_info,
+          exp_date: null,
+        },
+      }
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(response),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.authenticate()
+      expect(client.getExpirationDate()).toBeNull()
+    })
+  })
+
+  describe('buildStreamUrl', () => {
+    it('should build live stream URL with default ts format', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const url = client.buildStreamUrl(123, 'live')
+      expect(url).toBe('http://example.com:8080/live/testuser/testpass/123.ts')
+    })
+
+    it('should build movie stream URL with default m3u8 format', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const url = client.buildStreamUrl(456, 'movie')
+      expect(url).toBe('http://example.com:8080/movie/testuser/testpass/456.m3u8')
+    })
+
+    it('should build series stream URL', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const url = client.buildStreamUrl(789, 'series')
+      expect(url).toBe('http://example.com:8080/series/testuser/testpass/789.m3u8')
+    })
+
+    it('should use custom format when provided', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const url = client.buildStreamUrl(123, 'live', 'm3u8')
+      expect(url).toBe('http://example.com:8080/live/testuser/testpass/123.m3u8')
+    })
+
+    it('should handle string stream IDs', () => {
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const url = client.buildStreamUrl('abc123', 'live')
+      expect(url).toBe('http://example.com:8080/live/testuser/testpass/abc123.ts')
+    })
+  })
+})
+
+describe('createAuthenticatedClient', () => {
+  beforeEach(() => {
+    mockFetch.mockReset()
+  })
+
+  it('should create and authenticate a client', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          user_info: {
+            username: 'testuser',
+            auth: 1,
+            status: 'Active',
+            exp_date: null,
+            is_trial: '0',
+            active_cons: '0',
+            created_at: Date.now(),
+            max_connections: '1',
+            allowed_output_formats: ['ts'],
+          },
+          server_info: {
+            url: 'http://example.com',
+            port: '8080',
+            server_protocol: 'http',
+            timezone: 'UTC',
+            timestamp_now: Date.now() / 1000,
+          },
+        }),
+    })
+
+    const client = await createAuthenticatedClient({
+      serverUrl: 'http://example.com:8080',
+      username: 'testuser',
+      password: 'testpass',
+    })
+
+    expect(client).toBeInstanceOf(XtreamClient)
+    expect(client.getAuthResponse()).not.toBeNull()
+  })
+
+  it('should throw if authentication fails', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          user_info: { auth: 0 },
+        }),
+    })
+
+    await expect(
+      createAuthenticatedClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'wrongpass',
+      })
+    ).rejects.toThrow(XtreamApiError)
+  })
+})
+
+describe('XtreamApiError', () => {
+  it('should include status code and response', () => {
+    const error = new XtreamApiError('Test error', 404, { message: 'Not found' })
+    expect(error.message).toBe('Test error')
+    expect(error.statusCode).toBe(404)
+    expect(error.response).toEqual({ message: 'Not found' })
+    expect(error.name).toBe('XtreamApiError')
+  })
+})

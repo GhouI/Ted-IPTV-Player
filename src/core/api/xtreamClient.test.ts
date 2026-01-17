@@ -1694,3 +1694,424 @@ describe('XtreamClient Series methods', () => {
     })
   })
 })
+
+describe('XtreamClient EPG methods', () => {
+  beforeEach(() => {
+    mockFetch.mockReset()
+  })
+
+  describe('getShortEPG', () => {
+    const mockShortEPGResponse = {
+      epg_listings: [
+        {
+          id: '1001',
+          epg_id: 'cnn.us',
+          title: 'CNN News',
+          lang: 'en',
+          start: '2024-01-17 10:00:00',
+          end: '2024-01-17 11:00:00',
+          description: 'Latest news coverage',
+          channel_id: '101',
+          start_timestamp: '1705485600',
+          stop_timestamp: '1705489200',
+        },
+        {
+          id: '1002',
+          epg_id: 'cnn.us',
+          title: 'CNN Special Report',
+          lang: 'en',
+          start: '2024-01-17 11:00:00',
+          end: '2024-01-17 12:00:00',
+          description: 'In-depth analysis',
+          channel_id: '101',
+          start_timestamp: '1705489200',
+          stop_timestamp: '1705492800',
+        },
+      ],
+    }
+
+    it('should fetch and normalize EPG data for a stream', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockShortEPGResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const programs = await client.getShortEPG('101')
+
+      expect(programs).toHaveLength(2)
+      expect(programs[0]).toEqual({
+        id: '1001',
+        channelId: '101',
+        title: 'CNN News',
+        description: 'Latest news coverage',
+        startTime: 1705485600,
+        endTime: 1705489200,
+      })
+      expect(programs[1]).toEqual({
+        id: '1002',
+        channelId: '101',
+        title: 'CNN Special Report',
+        description: 'In-depth analysis',
+        startTime: 1705489200,
+        endTime: 1705492800,
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ epg_listings: [] }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getShortEPG('101')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_short_epg')
+      expect(calledUrl.searchParams.get('stream_id')).toBe('101')
+      expect(calledUrl.searchParams.has('limit')).toBe(false)
+    })
+
+    it('should include limit parameter when provided', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ epg_listings: [] }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getShortEPG('101', 5)
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('limit')).toBe('5')
+    })
+
+    it('should handle empty EPG listings', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ epg_listings: [] }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const programs = await client.getShortEPG('101')
+      expect(programs).toEqual([])
+    })
+
+    it('should handle response without epg_listings property', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({}),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const programs = await client.getShortEPG('101')
+      expect(programs).toEqual([])
+    })
+
+    it('should handle numeric timestamps', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            epg_listings: [
+              {
+                id: '1001',
+                epg_id: 'test',
+                title: 'Test Program',
+                lang: 'en',
+                start: '2024-01-17 10:00:00',
+                end: '2024-01-17 11:00:00',
+                description: 'Test',
+                channel_id: '101',
+                start_timestamp: 1705485600,
+                stop_timestamp: 1705489200,
+              },
+            ],
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const programs = await client.getShortEPG('101')
+      expect(programs[0].startTime).toBe(1705485600)
+      expect(programs[0].endTime).toBe(1705489200)
+    })
+
+    it('should use default title when missing', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            epg_listings: [
+              {
+                id: '1001',
+                epg_id: 'test',
+                title: '',
+                lang: 'en',
+                start: '',
+                end: '',
+                description: '',
+                channel_id: '101',
+                start_timestamp: '1705485600',
+                stop_timestamp: '1705489200',
+              },
+            ],
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const programs = await client.getShortEPG('101')
+      expect(programs[0].title).toBe('Untitled')
+    })
+  })
+
+  describe('getEPG', () => {
+    const mockFullEPGResponse = [
+      {
+        id: '2001',
+        epg_id: 'cnn.us',
+        title: 'Morning News',
+        lang: 'en',
+        start: '2024-01-17 08:00:00',
+        end: '2024-01-17 09:00:00',
+        description: 'Morning news broadcast',
+        channel_id: '101',
+        start_timestamp: '1705478400',
+        stop_timestamp: '1705482000',
+        now_playing: 0,
+        has_archive: 0,
+      },
+      {
+        id: '2002',
+        epg_id: 'espn.us',
+        title: 'SportsCenter',
+        lang: 'en',
+        start: '2024-01-17 09:00:00',
+        end: '2024-01-17 10:00:00',
+        description: 'Sports highlights',
+        channel_id: '102',
+        start_timestamp: '1705482000',
+        stop_timestamp: '1705485600',
+        now_playing: 1,
+        has_archive: 1,
+      },
+      {
+        id: '2003',
+        epg_id: 'cnn.us',
+        title: 'Afternoon News',
+        lang: 'en',
+        start: '2024-01-17 14:00:00',
+        end: '2024-01-17 15:00:00',
+        description: 'Afternoon coverage',
+        channel_id: '101',
+        start_timestamp: '1705500000',
+        stop_timestamp: '1705503600',
+        now_playing: 0,
+        has_archive: 0,
+      },
+    ]
+
+    it('should fetch and organize EPG data by channel', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockFullEPGResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const epgData = await client.getEPG()
+
+      expect(Object.keys(epgData.programs)).toHaveLength(2)
+      expect(epgData.programs['101']).toHaveLength(2)
+      expect(epgData.programs['102']).toHaveLength(1)
+    })
+
+    it('should sort programs by start time within each channel', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockFullEPGResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const epgData = await client.getEPG()
+
+      // Programs for channel 101 should be sorted by start time
+      expect(epgData.programs['101'][0].title).toBe('Morning News')
+      expect(epgData.programs['101'][1].title).toBe('Afternoon News')
+    })
+
+    it('should call the correct API endpoint without stream_id', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getEPG()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_simple_data_table')
+      expect(calledUrl.searchParams.has('stream_id')).toBe(false)
+    })
+
+    it('should include stream_id when provided', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getEPG('101')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('stream_id')).toBe('101')
+    })
+
+    it('should handle empty EPG response', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const epgData = await client.getEPG()
+
+      expect(epgData.programs).toEqual({})
+      expect(typeof epgData.lastUpdated).toBe('number')
+    })
+
+    it('should handle null response', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(null),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const epgData = await client.getEPG()
+
+      expect(epgData.programs).toEqual({})
+    })
+
+    it('should include lastUpdated timestamp', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const before = Date.now()
+      const epgData = await client.getEPG()
+      const after = Date.now()
+
+      expect(epgData.lastUpdated).toBeGreaterThanOrEqual(before)
+      expect(epgData.lastUpdated).toBeLessThanOrEqual(after)
+    })
+  })
+
+  describe('getNowPlaying', () => {
+    it('should call getShortEPG with limit of 4', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            epg_listings: [
+              {
+                id: '1001',
+                epg_id: 'test',
+                title: 'Current Show',
+                lang: 'en',
+                start: '',
+                end: '',
+                description: 'Now playing',
+                channel_id: '101',
+                start_timestamp: '1705485600',
+                stop_timestamp: '1705489200',
+              },
+            ],
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const programs = await client.getNowPlaying('101')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_short_epg')
+      expect(calledUrl.searchParams.get('stream_id')).toBe('101')
+      expect(calledUrl.searchParams.get('limit')).toBe('4')
+      expect(programs).toHaveLength(1)
+    })
+  })
+})

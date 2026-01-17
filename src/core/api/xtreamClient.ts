@@ -11,7 +11,7 @@ import type {
   XtreamUserInfo,
   XtreamServerInfo,
 } from '../types/source'
-import type { Category, Channel } from '../types/channel'
+import type { Category, Channel, Program, EPGData } from '../types/channel'
 import type { VODCategory, VODItem, Series, Season, Episode, SeriesInfo } from '../types/vod'
 
 /**
@@ -193,6 +193,47 @@ interface RawSeriesEpisode {
   added: string
   season: number
   direct_source: string
+}
+
+/**
+ * Raw EPG listing from Xtream API (short EPG format)
+ */
+interface RawEPGListing {
+  id: string
+  epg_id: string
+  title: string
+  lang: string
+  start: string
+  end: string
+  description: string
+  channel_id: string
+  start_timestamp: string | number
+  stop_timestamp: string | number
+}
+
+/**
+ * Raw EPG response from get_short_epg action
+ */
+interface RawShortEPGResponse {
+  epg_listings: RawEPGListing[]
+}
+
+/**
+ * Raw full EPG data entry from get_simple_data_table
+ */
+interface RawFullEPGEntry {
+  id: string
+  epg_id: string
+  title: string
+  lang?: string
+  start: string
+  end: string
+  description?: string
+  channel_id: string
+  start_timestamp: string | number
+  stop_timestamp: string | number
+  now_playing?: number
+  has_archive?: number
 }
 
 /**
@@ -444,6 +485,30 @@ function normalizeSeriesInfo(
   }
 
   return { series, seasons, episodes }
+}
+
+/**
+ * Normalizes a raw EPG listing to our Program type
+ */
+function normalizeEPGListing(raw: RawEPGListing | RawFullEPGEntry, channelId: string): Program {
+  // Parse timestamps - can be string or number
+  const startTimestamp =
+    typeof raw.start_timestamp === 'string'
+      ? parseInt(raw.start_timestamp, 10)
+      : raw.start_timestamp
+  const endTimestamp =
+    typeof raw.stop_timestamp === 'string'
+      ? parseInt(raw.stop_timestamp, 10)
+      : raw.stop_timestamp
+
+  return {
+    id: raw.id,
+    channelId,
+    title: raw.title || 'Untitled',
+    description: raw.description || undefined,
+    startTime: startTimestamp,
+    endTime: endTimestamp,
+  }
 }
 
 /**
@@ -784,6 +849,88 @@ export class XtreamClient {
       series_id: seriesId,
     })
     return normalizeSeriesInfo(rawInfo, seriesId, this.baseUrl, this.username, this.password)
+  }
+
+  /**
+   * Fetches EPG (Electronic Program Guide) data for a specific stream
+   *
+   * Uses the get_short_epg action which returns program listings for a channel.
+   * The limit parameter controls how many programs to return.
+   *
+   * @param streamId - The stream ID to fetch EPG for
+   * @param limit - Maximum number of programs to return (default: all)
+   * @returns Array of programs for the stream
+   * @throws XtreamApiError if the request fails
+   */
+  async getShortEPG(streamId: string, limit?: number): Promise<Program[]> {
+    const params: Record<string, string> = {
+      stream_id: streamId,
+    }
+    if (limit !== undefined) {
+      params.limit = String(limit)
+    }
+
+    const response = await this.request<RawShortEPGResponse>('get_short_epg', params)
+    const listings = response.epg_listings || []
+    return listings.map((listing) => normalizeEPGListing(listing, streamId))
+  }
+
+  /**
+   * Fetches full EPG data for all channels
+   *
+   * Uses the get_simple_data_table action which returns complete EPG data.
+   * This can return a large amount of data.
+   *
+   * @param streamId - Optional stream ID to filter EPG for a specific channel
+   * @returns EPGData object with programs organized by channel
+   * @throws XtreamApiError if the request fails
+   */
+  async getEPG(streamId?: string): Promise<EPGData> {
+    const params: Record<string, string> = {}
+    if (streamId) {
+      params.stream_id = streamId
+    }
+
+    const response = await this.request<RawFullEPGEntry[]>('get_simple_data_table', params)
+    const listings = response || []
+
+    // Group programs by channel ID
+    const programsByChannel: Record<string, Program[]> = {}
+    for (const listing of listings) {
+      const channelId = listing.channel_id
+      if (!programsByChannel[channelId]) {
+        programsByChannel[channelId] = []
+      }
+      programsByChannel[channelId].push(normalizeEPGListing(listing, channelId))
+    }
+
+    // Sort programs within each channel by start time
+    for (const channelId of Object.keys(programsByChannel)) {
+      programsByChannel[channelId].sort((a, b) => {
+        const aStart = typeof a.startTime === 'number' ? a.startTime : parseInt(a.startTime, 10)
+        const bStart = typeof b.startTime === 'number' ? b.startTime : parseInt(b.startTime, 10)
+        return aStart - bStart
+      })
+    }
+
+    return {
+      programs: programsByChannel,
+      lastUpdated: Date.now(),
+    }
+  }
+
+  /**
+   * Fetches currently playing and upcoming programs for a stream
+   *
+   * This is a convenience method that fetches a limited number of programs
+   * for a single channel, useful for displaying "now playing" and "up next" info.
+   *
+   * @param streamId - The stream ID to fetch EPG for
+   * @returns Array of programs (typically now playing + next few)
+   * @throws XtreamApiError if the request fails
+   */
+  async getNowPlaying(streamId: string): Promise<Program[]> {
+    return this.getShortEPG(streamId, 4)
   }
 }
 

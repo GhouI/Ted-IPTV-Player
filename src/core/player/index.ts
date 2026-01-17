@@ -24,3 +24,17 @@ export {
 
 export { BasePlayerAdapter } from './BasePlayerAdapter'
 export { NativePlayerAdapter } from './NativePlayerAdapter'
+export { ShakaPlayerAdapter, isShakaSupported } from './ShakaPlayerAdapter'
+
+// Player factory exports
+export {
+  createPlayer,
+  getRecommendedPlayerType,
+  isPlayerTypeSupported,
+  getPlayerSupportSummary,
+} from './PlayerFactory'
+export type {
+  PlayerType,
+  CreatePlayerOptions,
+  CreatePlayerResult,
+} from './PlayerFactory'

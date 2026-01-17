@@ -97,8 +97,7 @@ export class NativePlayerAdapter extends BasePlayerAdapter {
    * Native player doesn't support adaptive quality switching.
    * This is a no-op but maintains interface compatibility.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setQuality(quality: QualityTrack | null): void {
+  setQuality(_quality: QualityTrack | null): void {
     // Native player doesn't support quality selection
     // The single available quality is automatically used
   }

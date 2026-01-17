@@ -100,7 +100,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Implement EPG cache with time-based invalidation
 - [x] Implement EPG time sync utility for accurate program times
 - [x] Create Zustand store for source management (add, remove, switch)
-- [ ] Create Zustand store for channel state (categories, channels, current)
+- [x] Create Zustand store for channel state (categories, channels, current)
 - [ ] Create Zustand store for VOD state (categories, movies)
 - [ ] Create Zustand store for series state (series, seasons, episodes)
 - [ ] Create Zustand store for EPG state (programs by channel)

@@ -1437,3 +1437,16 @@ plans/progress.txt
 src/core/epg/index.ts
 src/core/epg/timeSync.test.ts
 src/core/epg/timeSync.ts
+
+---
+2026-01-17: Create Zustand store for channel state (categories, channels, current)
+Status: completed
+Time: 23:37:00
+Files Changed:
+src/core/stores/channelStore.ts
+src/core/stores/channelStore.test.ts
+src/core/stores/index.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt

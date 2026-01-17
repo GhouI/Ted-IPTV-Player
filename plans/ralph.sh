@@ -1300,6 +1300,10 @@ run_single_task() {
       CODEX_LAST_MESSAGE_FILE=""
     fi
 
+    # Auto-mark task complete for all PRD sources
+    # This ensures tasks don't loop forever if AI forgets to mark them
+    mark_task_complete "$current_task"
+
     # Get updated counts for notifications
     local new_remaining new_completed files_changed
     new_remaining=$(count_remaining_tasks | tr -d '[:space:]')
@@ -1320,11 +1324,6 @@ run_single_task() {
       notify_discord "$current_task" "completed" "$new_completed" "$new_remaining"
     else
       log_warn "Task not marked complete in PRD - skipping notification"
-    fi
-
-    # Mark task complete for GitHub issues (since AI can't do it)
-    if [[ "$PRD_SOURCE" == "github" ]]; then
-      mark_task_complete "$current_task"
     fi
 
     # Create PR if requested

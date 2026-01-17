@@ -1305,14 +1305,19 @@ run_single_task() {
     new_completed=${new_completed:-0}
     files_changed=$(git diff --name-only HEAD~1 2>/dev/null || echo "")
 
-    # Write progress entry directly
-    write_progress_entry "$current_task" "completed" "$files_changed"
+    # Only notify if a task was actually marked complete (remaining decreased)
+    if [[ "$new_remaining" -lt "$remaining" ]]; then
+      # Write progress entry directly
+      write_progress_entry "$current_task" "completed" "$files_changed"
 
-    # Output JSON for integrations
-    output_task_json "$current_task" "completed" "$files_changed" "$input_tokens" "$output_tokens" "$task_num" "$new_remaining" "$new_completed"
+      # Output JSON for integrations
+      output_task_json "$current_task" "completed" "$files_changed" "$input_tokens" "$output_tokens" "$task_num" "$new_remaining" "$new_completed"
 
-    # Send Discord notification
-    notify_discord "$current_task" "completed" "$new_completed" "$new_remaining"
+      # Send Discord notification
+      notify_discord "$current_task" "completed" "$new_completed" "$new_remaining"
+    else
+      log_warn "Task not marked complete in PRD - skipping notification"
+    fi
 
     # Mark task complete for GitHub issues (since AI can't do it)
     if [[ "$PRD_SOURCE" == "github" ]]; then

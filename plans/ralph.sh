@@ -1332,12 +1332,13 @@ run_single_task() {
     if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
       git commit -m "Task: ${current_task:0:50}" 2>/dev/null || true
     fi
-    # Push to current branch (not BASE_BRANCH, in case we're on a feature branch)
+    # Push to current branch (use force-with-lease for feature branches to handle rebases)
     local current_branch
     current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "$BASE_BRANCH")
     if ! git push origin "$current_branch" 2>&1; then
       sleep 1
-      git push origin "$current_branch" 2>&1 || log_warn "Failed to push changes after retry"
+      # Try force-with-lease if normal push fails (handles rebase situations)
+      git push --force-with-lease origin "$current_branch" 2>&1 || log_warn "Failed to push changes"
     fi
 
     # Create PR if requested

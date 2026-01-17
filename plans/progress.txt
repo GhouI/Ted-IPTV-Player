@@ -1015,3 +1015,13 @@ src/core/types/source.test.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-17: Define TypeScript types for Source (Xtream and M3U
+Status: completed
+Time: 22:16:40
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/types/source.test.ts
+src/core/types/source.ts

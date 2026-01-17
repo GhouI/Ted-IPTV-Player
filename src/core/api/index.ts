@@ -36,3 +36,12 @@ export {
   createSourceNormalizer,
 } from './sourceNormalizer'
 export type { SourceValidationResult, NormalizedContent } from './sourceNormalizer'
+
+export {
+  CredentialStore,
+  CredentialStoreError,
+  createCredentialStore,
+  getCredentialStore,
+  resetDefaultStore,
+} from './credentialStore'
+export type { CredentialStoreOptions, CredentialStoreErrorCode } from './credentialStore'

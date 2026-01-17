@@ -1004,8 +1004,9 @@ run_ai_command() {
         "$prompt" > "$output_file" 2>&1 &
       ;;
     *)
-      # Claude Code: use existing approach
-      claude --dangerously-skip-permissions \
+      # Claude Code: use allowedTools instead of dangerously-skip-permissions
+      # (the latter is blocked when running as root)
+      claude --allowedTools 'Bash Edit Write Read Glob Grep Task WebFetch' \
         --verbose \
         --output-format stream-json \
         -p "$prompt" > "$output_file" 2>&1 &

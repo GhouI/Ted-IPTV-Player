@@ -1341,3 +1341,32 @@ package-lock.json
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-17: Implement player factory with capability-based sel
+Status: completed
+Time: 23:24:43
+Files Changed:
+eslint.config.js
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/player/NativePlayerAdapter.ts
+src/core/player/PlayerFactory.test.ts
+src/core/player/PlayerFactory.ts
+src/core/player/ShakaPlayerAdapter.test.ts
+src/core/player/ShakaPlayerAdapter.ts
+src/core/player/index.ts
+src/types/shaka-player.d.ts
+
+---
+2026-01-17: Implement EPG parser for XMLTV format
+Status: completed
+Time: 23:28:00
+Files Changed:
+src/core/epg/xmltvParser.ts
+src/core/epg/xmltvParser.test.ts
+src/core/epg/index.ts
+plans/PRD.md
+plans/progress.txt

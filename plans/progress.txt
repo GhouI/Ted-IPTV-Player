@@ -1586,3 +1586,27 @@ src/core/hooks/useChannelQueries.test.tsx
 src/core/hooks/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching channels wit
+Status: completed
+Time: 23:51:25
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useChannelQueries.test.tsx
+src/core/hooks/useChannelQueries.ts
+
+---
+2026-01-17: Create React Query hooks for fetching VOD content
+Status: completed
+Time: 23:53:30
+Files Changed:
+src/core/hooks/useVODQueries.ts
+src/core/hooks/useVODQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt

@@ -89,7 +89,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Implement Xtream client method for EPG data
 - [x] Implement M3U playlist parser wrapper using iptv-m3u-playlist-parser
 - [x] Implement M3U adapter to extract channels and categories
-- [ ] Implement SourceNormalizer to unify Xtream and M3U data formats
+- [x] Implement SourceNormalizer to unify Xtream and M3U data formats
 - [ ] Implement CredentialStore with encrypted localStorage using secure-ls
 - [ ] Implement MSE/EME capability detection utility
 - [ ] Implement PlayerAdapter interface for video playback abstraction

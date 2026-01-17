@@ -29,3 +29,10 @@ export {
   getChannelCountByCategory,
 } from './m3uAdapter'
 export type { M3UAdapterOptions, M3UAdapterResult } from './m3uAdapter'
+
+export {
+  SourceNormalizer,
+  SourceNormalizerError,
+  createSourceNormalizer,
+} from './sourceNormalizer'
+export type { SourceValidationResult, NormalizedContent } from './sourceNormalizer'

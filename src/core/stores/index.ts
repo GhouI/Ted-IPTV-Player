@@ -21,3 +21,9 @@ export {
   type EPGState,
   type EPGActions,
 } from './epgStore'
+
+export {
+  usePlayerStore,
+  type PlayerStoreState,
+  type PlayerStoreActions,
+} from './playerStore'

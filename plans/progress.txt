@@ -1518,3 +1518,25 @@ src/core/stores/epgStore.test.ts
 src/core/stores/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for EPG state (programs by ch
+Status: completed
+Time: 23:44:07
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/epgStore.test.ts
+src/core/stores/epgStore.ts
+src/core/stores/index.ts
+---
+2026-01-17: Create Zustand store for player state (playing, volume, quality)
+Status: completed
+Time: 23:45:52
+Files Changed:
+src/core/stores/playerStore.ts
+src/core/stores/playerStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+

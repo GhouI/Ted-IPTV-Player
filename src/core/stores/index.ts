@@ -9,3 +9,9 @@ export {
   type VODState,
   type VODActions,
 } from './vodStore'
+
+export {
+  useSeriesStore,
+  type SeriesState,
+  type SeriesActions,
+} from './seriesStore'

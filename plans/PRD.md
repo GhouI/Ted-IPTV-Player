@@ -102,7 +102,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Create Zustand store for source management (add, remove, switch)
 - [x] Create Zustand store for channel state (categories, channels, current)
 - [x] Create Zustand store for VOD state (categories, movies)
-- [ ] Create Zustand store for series state (series, seasons, episodes)
+- [x] Create Zustand store for series state (series, seasons, episodes)
 - [ ] Create Zustand store for EPG state (programs by channel)
 - [ ] Create Zustand store for player state (playing, volume, quality)
 - [ ] Create Zustand store for settings (quality preferences, buffer size)

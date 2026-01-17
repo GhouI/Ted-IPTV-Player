@@ -1474,3 +1474,25 @@ src/core/stores/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-17: Create Zustand store for VOD state (categories, mo
+Status: completed
+Time: 23:39:23
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/index.ts
+src/core/stores/vodStore.test.ts
+src/core/stores/vodStore.ts
+
+---
+2026-01-17: Create Zustand store for series state (series, seasons, episodes)
+Status: completed
+Time: 23:41:27
+Files Changed:
+src/core/stores/seriesStore.ts
+src/core/stores/seriesStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt

@@ -1331,7 +1331,11 @@ run_single_task() {
     if [[ -n "$(git status --porcelain 2>/dev/null)" ]]; then
       git add -A && git commit -m "Task: ${current_task:0:50}" 2>/dev/null || true
     fi
-    git push origin "$BASE_BRANCH" 2>/dev/null || log_warn "Failed to push changes"
+    # Push with retry - sometimes needs a second attempt
+    if ! git push origin "$BASE_BRANCH" 2>&1; then
+      sleep 1
+      git push origin "$BASE_BRANCH" 2>&1 || log_warn "Failed to push changes after retry"
+    fi
 
     # Create PR if requested
     if [[ "$CREATE_PR" == true ]] && [[ -n "$branch_name" ]]; then

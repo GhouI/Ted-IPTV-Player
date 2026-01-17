@@ -1633,3 +1633,26 @@ src/core/hooks/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-17: Create React Query hooks for fetching series conte
+Status: completed
+Time: 23:57:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useSeriesQueries.test.tsx
+src/core/hooks/useSeriesQueries.ts
+
+---
+2026-01-17: Create React Query hooks for fetching EPG data
+Status: completed
+Time: 23:59:49
+Files Changed:
+src/core/hooks/useEPGQueries.ts
+src/core/hooks/useEPGQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt
+

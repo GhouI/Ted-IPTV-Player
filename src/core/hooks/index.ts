@@ -39,3 +39,21 @@ export {
   type UseSeriesByCategoryOptions,
   type UseSeriesInfoOptions,
 } from './useSeriesQueries'
+
+export {
+  epgKeys,
+  useFullEPG,
+  useChannelEPG,
+  useCurrentProgram,
+  useEPGTimeRange,
+  useNowNextPrograms,
+  usePrefetchEPG,
+  usePrefetchChannelEPG,
+  useInvalidateEPG,
+  useClearEPGCache,
+  type UseEPGQueryOptions,
+  type UseChannelEPGOptions,
+  type UseEPGTimeRangeOptions,
+  type UseNowNextOptions,
+  type NowNextPrograms,
+} from './useEPGQueries'

@@ -1326,6 +1326,9 @@ run_single_task() {
       log_warn "Task not marked complete in PRD - skipping notification"
     fi
 
+    # Push changes to remote after each task
+    git push origin "$BASE_BRANCH" 2>/dev/null || log_warn "Failed to push changes"
+
     # Create PR if requested
     if [[ "$CREATE_PR" == true ]] && [[ -n "$branch_name" ]]; then
       create_pull_request "$branch_name" "$current_task" "Automated implementation by Ralphy"

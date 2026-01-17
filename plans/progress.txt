@@ -1,1 +1,786 @@
 ---
+
+---
+2026-01-17: Create base tsconfig with strict mode enabled
+Status: completed
+Time: 21:34:56
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Configure Vite for production builds with code spl
+Status: completed
+Time: 21:34:59
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Add bundle analyzer plugin for size monitoring
+Status: completed
+Time: 21:35:02
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create app shell with React Router setup
+Status: completed
+Time: 21:35:04
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Norigin Spatial Navigation provider
+Status: completed
+Time: 21:35:07
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create VIDAA keymap configuration for remote contr
+Status: completed
+Time: 21:35:10
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement back button handler with exit confirmati
+Status: completed
+Time: 21:35:13
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create FocusableButton component with TV focus sta
+Status: completed
+Time: 21:35:16
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create FocusableCard component for grid items
+Status: completed
+Time: 21:35:19
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Grid component with spatial navigation supp
+Status: completed
+Time: 21:35:22
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Modal component with focus trapping
+Status: completed
+Time: 21:35:24
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Toast component for notifications
+Status: completed
+Time: 21:35:27
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Skeleton component for loading states
+Status: completed
+Time: 21:35:30
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for Channel, Category, Pro
+Status: completed
+Time: 21:35:33
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for VOD, Series, Episode
+Status: completed
+Time: 21:35:36
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for Source (Xtream and M3U
+Status: completed
+Time: 21:35:39
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for Player state and event
+Status: completed
+Time: 21:35:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream Codes API client with authenticat
+Status: completed
+Time: 21:35:44
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client methods for live streams a
+Status: completed
+Time: 21:35:47
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client methods for VOD streams an
+Status: completed
+Time: 21:35:50
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client methods for series and epi
+Status: completed
+Time: 21:35:53
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client method for EPG data
+Status: completed
+Time: 21:35:56
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement M3U playlist parser wrapper using iptv-m
+Status: completed
+Time: 21:35:59
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement M3U adapter to extract channels and cate
+Status: completed
+Time: 21:36:01
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement SourceNormalizer to unify Xtream and M3U
+Status: completed
+Time: 21:36:04
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement CredentialStore with encrypted localStor
+Status: completed
+Time: 21:36:07
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement MSE/EME capability detection utility
+Status: completed
+Time: 21:36:10
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement PlayerAdapter interface for video playba
+Status: completed
+Time: 21:36:12
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement ShakaPlayer adapter with HLS and DASH su
+Status: completed
+Time: 21:36:15
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement NativePlayer adapter as fallback for dir
+Status: completed
+Time: 21:36:18
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement player factory with capability-based sel
+Status: completed
+Time: 21:36:21
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement EPG parser for XMLTV format
+Status: completed
+Time: 21:36:24
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement EPG cache with time-based invalidation
+Status: completed
+Time: 21:36:27
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement EPG time sync utility for accurate progr
+Status: completed
+Time: 21:36:30
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for source management (add, r
+Status: completed
+Time: 21:36:33
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for channel state (categories
+Status: completed
+Time: 21:36:35
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for VOD state (categories, mo
+Status: completed
+Time: 21:36:38
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for series state (series, sea
+Status: completed
+Time: 21:36:41
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for EPG state (programs by ch
+Status: completed
+Time: 21:36:44
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for player state (playing, vo
+Status: completed
+Time: 21:36:47
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for settings (quality prefere
+Status: completed
+Time: 21:36:50
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching channels wit
+Status: completed
+Time: 21:36:53
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching VOD content
+Status: completed
+Time: 21:36:55
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching series conte
+Status: completed
+Time: 21:36:58
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching EPG data
+Status: completed
+Time: 21:37:01
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SourceSetup screen for first-launch onboardi
+Status: completed
+Time: 21:37:04
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build XtreamLoginForm component with server/userna
+Status: completed
+Time: 21:37:06
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build M3UUrlForm component with URL input and vali
+Status: completed
+Time: 21:37:09
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build AddSourceModal for adding new IPTV sources
+Status: completed
+Time: 21:37:12
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SourceList component for managing saved sour
+Status: completed
+Time: 21:37:15
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build HomePage with main menu (Live TV, VOD, Serie
+Status: completed
+Time: 21:37:18
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build MenuCard component for home screen navigatio
+Status: completed
+Time: 21:37:21
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build LiveTVPage with category sidebar and channel
+Status: completed
+Time: 21:37:23
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build CategoryList component with vertical navigat
+Status: completed
+Time: 21:37:26
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build ChannelGrid component with focusable channel
+Status: completed
+Time: 21:37:29
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build ChannelCard component showing logo, name, an
+Status: completed
+Time: 21:37:32
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build VODPage with category browsing and movie gri
+Status: completed
+Time: 21:37:35
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build VODCard component with poster and title
+Status: completed
+Time: 21:37:37
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build VODDetails modal with movie info and play bu
+Status: completed
+Time: 21:37:40
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SeriesPage with series grid browsing
+Status: completed
+Time: 21:37:43
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SeriesCard component with poster and title
+Status: completed
+Time: 21:37:46
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SeriesDetails screen with season and episode
+Status: completed
+Time: 21:37:49
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SeasonList component for season navigation
+Status: completed
+Time: 21:37:51
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build EpisodeList component with episode cards
+Status: completed
+Time: 21:37:54
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build EPGPage with full program guide grid
+Status: completed
+Time: 21:37:57
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build EPGGrid component with timeline and channel 
+Status: completed
+Time: 21:38:00
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build EPGProgram component for individual program 
+Status: completed
+Time: 21:38:03
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build MiniEPG component showing now/next for curre
+Status: completed
+Time: 21:38:06
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build ProgramDetails modal with program informatio
+Status: completed
+Time: 21:38:09
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build VideoPlayer component with Shaka integration
+Status: completed
+Time: 21:38:11
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build PlayerControls component (play/pause, seek, 
+Status: completed
+Time: 21:38:14
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build PlayerOverlay component showing channel info
+Status: completed
+Time: 21:38:17
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build QualitySelector component for stream quality
+Status: completed
+Time: 21:38:20
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement player remote control handling (play/pau
+Status: completed
+Time: 21:38:23
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Build SettingsPage with sections for playback and 
+Status: completed
+Time: 21:39:51
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Build PlaybackSettings component (quality, buffer 
+Status: completed
+Time: 21:39:53
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Build SourceSettings component for managing IPTV s
+Status: completed
+Time: 21:39:56
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Build AboutSection component with app version info
+Status: completed
+Time: 21:39:59
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Implement global error boundary with recovery UI
+Status: completed
+Time: 21:40:02
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Implement stream error handling with retry logic
+Status: completed
+Time: 21:40:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Implement source validation on add (test connectio
+Status: completed
+Time: 21:40:07
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Write unit tests for Xtream Codes API client
+Status: completed
+Time: 21:40:10
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Write unit tests for M3U parser adapter
+Status: completed
+Time: 21:40:13
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Write unit tests for SourceNormalizer
+Status: completed
+Time: 21:40:16
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Write unit tests for PlayerAdapter implementations
+Status: completed
+Time: 21:40:19
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Write unit tests for EPG parser and cache
+Status: completed
+Time: 21:40:22
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Write unit tests for CredentialStore encryption
+Status: completed
+Time: 21:40:25
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Create app icons (220x220 and 400x400 PNG)
+Status: completed
+Time: 21:40:28
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Configure Vite build for production optimization
+Status: completed
+Time: 21:40:30
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Create sideload documentation with step-by-step in
+Status: completed
+Time: 21:40:33
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Test full app flow on actual VIDAA TV device
+Status: completed
+Time: 21:40:36
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Fix any TV-specific navigation or playback issues
+Status: completed
+Time: 21:40:39
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Create base tsconfig with strict mode enabled
+Status: completed
+Time: 21:45:00
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Configure Vite for production builds with code spl
+Status: completed
+Time: 21:45:08
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+plans/ralph.sh
+
+---
+2026-01-17: Add bundle analyzer plugin for size monitoring
+Status: completed
+Time: 21:47:14
+Files Changed:
+vite.config.ts
+src/test/vite-config.test.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+

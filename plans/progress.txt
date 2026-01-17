@@ -1393,3 +1393,25 @@ src/core/epg/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-17: Implement EPG cache with time-based invalidation
+Status: completed
+Time: 23:30:56
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/epgCache.test.ts
+src/core/epg/epgCache.ts
+src/core/epg/index.ts
+
+---
+2026-01-17: Implement EPG time sync utility for accurate program times
+Status: completed
+Time: 23:34:00
+Files Changed:
+src/core/epg/timeSync.ts
+src/core/epg/timeSync.test.ts
+src/core/epg/index.ts
+plans/PRD.md
+plans/progress.txt

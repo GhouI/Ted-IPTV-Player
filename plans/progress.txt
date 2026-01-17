@@ -1005,3 +1005,13 @@ src/core/types/player.ts
 src/core/types/source.ts
 src/core/types/vod.test.ts
 src/core/types/vod.ts
+---
+2026-01-17: Define TypeScript types for Source (Xtream and M3U)
+Status: completed
+Time: 22:16:26
+Files Changed:
+src/core/types/source.ts
+src/core/types/source.test.ts
+plans/PRD.md
+plans/progress.txt
+

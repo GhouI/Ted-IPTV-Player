@@ -12,7 +12,7 @@ import type {
   XtreamServerInfo,
 } from '../types/source'
 import type { Category, Channel } from '../types/channel'
-import type { VODCategory, VODItem } from '../types/vod'
+import type { VODCategory, VODItem, Series, Season, Episode, SeriesInfo } from '../types/vod'
 
 /**
  * Error thrown when Xtream API requests fail
@@ -103,6 +103,95 @@ interface RawVODStream {
   category_ids?: number[]
   container_extension: string
   custom_sid: string
+  direct_source: string
+}
+
+/**
+ * Raw series response from Xtream API
+ */
+interface RawSeries {
+  num: number
+  name: string
+  series_id: number
+  cover: string
+  plot: string
+  cast: string
+  director: string
+  genre: string
+  releaseDate: string
+  last_modified: string
+  rating: string
+  rating_5based: number
+  backdrop_path?: string[]
+  youtube_trailer?: string
+  episode_run_time?: string
+  category_id: string
+  category_ids?: number[]
+}
+
+/**
+ * Raw series info response from Xtream API
+ */
+interface RawSeriesInfo {
+  seasons: RawSeriesInfoSeason[]
+  info: {
+    name: string
+    cover: string
+    plot: string
+    cast: string
+    director: string
+    genre: string
+    releaseDate: string
+    last_modified: string
+    rating: string
+    rating_5based: number
+    backdrop_path?: string[]
+    youtube_trailer?: string
+    episode_run_time?: string
+    category_id: string
+  }
+  episodes: Record<string, RawSeriesEpisode[]>
+}
+
+/**
+ * Raw season info from series info response
+ */
+interface RawSeriesInfoSeason {
+  air_date: string
+  episode_count: number
+  id: number
+  name: string
+  overview: string
+  season_number: number
+  cover?: string
+  cover_big?: string
+}
+
+/**
+ * Raw episode from series info response
+ */
+interface RawSeriesEpisode {
+  id: string
+  episode_num: number
+  title: string
+  container_extension: string
+  info: {
+    movie_image?: string
+    plot?: string
+    releasedate?: string
+    rating?: string
+    duration_secs?: number
+    duration?: string
+    video?: {
+      codec_name?: string
+    }
+    audio?: {
+      codec_name?: string
+    }
+  }
+  custom_sid: string
+  added: string
+  season: number
   direct_source: string
 }
 
@@ -213,6 +302,148 @@ function normalizeVODStream(
     containerFormat: raw.container_extension || undefined,
     dateAdded: raw.added || undefined,
   }
+}
+
+/**
+ * Normalizes a raw Xtream category to our VODCategory type (for series)
+ */
+function normalizeSeriesCategory(raw: RawCategory): VODCategory {
+  return {
+    id: raw.category_id,
+    name: raw.category_name,
+    parentId: raw.parent_id !== undefined ? String(raw.parent_id) : undefined,
+  }
+}
+
+/**
+ * Normalizes a raw Xtream series to our Series type
+ */
+function normalizeSeries(raw: RawSeries): Series {
+  const genres = raw.genre
+    ? raw.genre.split(',').map((g) => g.trim()).filter(Boolean)
+    : undefined
+  const cast = raw.cast
+    ? raw.cast.split(',').map((c) => c.trim()).filter(Boolean)
+    : undefined
+
+  // Extract year from releaseDate if available
+  let year: number | undefined
+  if (raw.releaseDate) {
+    const match = raw.releaseDate.match(/\d{4}/)
+    if (match) {
+      year = parseInt(match[0], 10)
+    }
+  }
+
+  return {
+    id: String(raw.series_id),
+    title: raw.name,
+    description: raw.plot || undefined,
+    categoryId: raw.category_id,
+    poster: raw.cover || undefined,
+    backdrop: raw.backdrop_path?.[0] || undefined,
+    year,
+    genres: genres && genres.length > 0 ? genres : undefined,
+    cast: cast && cast.length > 0 ? cast : undefined,
+    rating: raw.rating || undefined,
+    score: raw.rating_5based > 0 ? raw.rating_5based : undefined,
+    lastUpdated: raw.last_modified || undefined,
+  }
+}
+
+/**
+ * Normalizes raw series info response to our SeriesInfo type
+ */
+function normalizeSeriesInfo(
+  raw: RawSeriesInfo,
+  seriesId: string,
+  baseUrl: string,
+  username: string,
+  password: string
+): SeriesInfo {
+  const genres = raw.info.genre
+    ? raw.info.genre.split(',').map((g) => g.trim()).filter(Boolean)
+    : undefined
+  const cast = raw.info.cast
+    ? raw.info.cast.split(',').map((c) => c.trim()).filter(Boolean)
+    : undefined
+
+  // Extract year from releaseDate if available
+  let year: number | undefined
+  if (raw.info.releaseDate) {
+    const match = raw.info.releaseDate.match(/\d{4}/)
+    if (match) {
+      year = parseInt(match[0], 10)
+    }
+  }
+
+  // Calculate total episodes
+  let episodeCount = 0
+  for (const seasonEpisodes of Object.values(raw.episodes || {})) {
+    episodeCount += seasonEpisodes.length
+  }
+
+  const series: Series = {
+    id: seriesId,
+    title: raw.info.name,
+    description: raw.info.plot || undefined,
+    categoryId: raw.info.category_id,
+    poster: raw.info.cover || undefined,
+    backdrop: raw.info.backdrop_path?.[0] || undefined,
+    year,
+    genres: genres && genres.length > 0 ? genres : undefined,
+    cast: cast && cast.length > 0 ? cast : undefined,
+    rating: raw.info.rating || undefined,
+    score: raw.info.rating_5based > 0 ? raw.info.rating_5based : undefined,
+    seasonCount: raw.seasons?.length || 0,
+    episodeCount,
+    lastUpdated: raw.info.last_modified || undefined,
+  }
+
+  // Normalize seasons
+  const seasons: Season[] = (raw.seasons || []).map((rawSeason) => ({
+    id: String(rawSeason.id),
+    seriesId,
+    seasonNumber: rawSeason.season_number,
+    name: rawSeason.name || `Season ${rawSeason.season_number}`,
+    description: rawSeason.overview || undefined,
+    poster: rawSeason.cover_big || rawSeason.cover || undefined,
+    airDate: rawSeason.air_date || undefined,
+    episodeCount: rawSeason.episode_count,
+  }))
+
+  // Normalize episodes
+  const episodes: Record<string, Episode[]> = {}
+  for (const [seasonNum, rawEpisodes] of Object.entries(raw.episodes || {})) {
+    const season = seasons.find((s) => s.seasonNumber === parseInt(seasonNum, 10))
+    const seasonId = season?.id || seasonNum
+
+    episodes[seasonId] = (rawEpisodes || []).map((rawEp) => {
+      const extension = rawEp.container_extension || 'm3u8'
+      const streamUrl = `${baseUrl}/series/${username}/${password}/${rawEp.id}.${extension}`
+
+      return {
+        id: rawEp.id,
+        seriesId,
+        seasonId,
+        seasonNumber: rawEp.season,
+        episodeNumber: rawEp.episode_num,
+        title: rawEp.title || `Episode ${rawEp.episode_num}`,
+        description: rawEp.info?.plot || undefined,
+        streamUrl,
+        streamType: 'vod' as const,
+        thumbnail: rawEp.info?.movie_image || undefined,
+        duration: rawEp.info?.duration_secs || undefined,
+        airDate: rawEp.info?.releasedate || undefined,
+        rating: rawEp.info?.rating || undefined,
+        containerFormat: rawEp.container_extension || undefined,
+        videoCodec: rawEp.info?.video?.codec_name || undefined,
+        audioCodec: rawEp.info?.audio?.codec_name || undefined,
+      }
+    })
+  }
+
+  return { series, seasons, episodes }
 }
 
 /**
@@ -500,6 +731,59 @@ export class XtreamClient {
    */
   async getVODStreamsByCategory(categoryId: string): Promise<VODItem[]> {
     return this.getVODStreams(categoryId)
+  }
+
+  /**
+   * Fetches all series categories
+   *
+   * @returns Array of series categories
+   * @throws XtreamApiError if the request fails
+   */
+  async getSeriesCategories(): Promise<VODCategory[]> {
+    const rawCategories = await this.request<RawCategory[]>('get_series_categories')
+    return rawCategories.map(normalizeSeriesCategory)
+  }
+
+  /**
+   * Fetches all series
+   *
+   * @param categoryId - Optional category ID to filter series
+   * @returns Array of series
+   * @throws XtreamApiError if the request fails
+   */
+  async getSeries(categoryId?: string): Promise<Series[]> {
+    const params: Record<string, string> = {}
+    if (categoryId) {
+      params.category_id = categoryId
+    }
+
+    const rawSeries = await this.request<RawSeries[]>('get_series', params)
+    return rawSeries.map(normalizeSeries)
+  }
+
+  /**
+   * Fetches series for a specific category
+   *
+   * @param categoryId - The category ID to fetch series for
+   * @returns Array of series in the category
+   * @throws XtreamApiError if the request fails
+   */
+  async getSeriesByCategory(categoryId: string): Promise<Series[]> {
+    return this.getSeries(categoryId)
+  }
+
+  /**
+   * Fetches detailed information about a series including seasons and episodes
+   *
+   * @param seriesId - The series ID to fetch info for
+   * @returns Series info including seasons and episodes
+   * @throws XtreamApiError if the request fails
+   */
+  async getSeriesInfo(seriesId: string): Promise<SeriesInfo> {
+    const rawInfo = await this.request<RawSeriesInfo>('get_series_info', {
+      series_id: seriesId,
+    })
+    return normalizeSeriesInfo(rawInfo, seriesId, this.baseUrl, this.username, this.password)
   }
 }
 

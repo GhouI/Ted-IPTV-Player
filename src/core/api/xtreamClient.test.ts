@@ -1018,3 +1018,679 @@ describe('XtreamClient VOD methods', () => {
     })
   })
 })
+
+describe('XtreamClient Series methods', () => {
+  beforeEach(() => {
+    mockFetch.mockReset()
+  })
+
+  describe('getSeriesCategories', () => {
+    const mockSeriesCategoriesResponse = [
+      { category_id: '20', category_name: 'Drama', parent_id: 0 },
+      { category_id: '21', category_name: 'Sci-Fi', parent_id: 0 },
+      { category_id: '22', category_name: 'Crime Drama', parent_id: 20 },
+    ]
+
+    it('should fetch and normalize series categories', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockSeriesCategoriesResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getSeriesCategories()
+
+      expect(categories).toHaveLength(3)
+      expect(categories[0]).toEqual({
+        id: '20',
+        name: 'Drama',
+        parentId: '0',
+      })
+      expect(categories[1]).toEqual({
+        id: '21',
+        name: 'Sci-Fi',
+        parentId: '0',
+      })
+      expect(categories[2]).toEqual({
+        id: '22',
+        name: 'Crime Drama',
+        parentId: '20',
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getSeriesCategories()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_series_categories')
+    })
+
+    it('should handle empty category list', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getSeriesCategories()
+      expect(categories).toEqual([])
+    })
+
+    it('should handle categories without parent_id', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([{ category_id: '20', category_name: 'Series' }]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const categories = await client.getSeriesCategories()
+      expect(categories[0].parentId).toBeUndefined()
+    })
+  })
+
+  describe('getSeries', () => {
+    const mockSeriesResponse = [
+      {
+        num: 1,
+        name: 'Breaking Bad',
+        series_id: 5001,
+        cover: 'http://example.com/bb.jpg',
+        plot: 'A high school chemistry teacher turned meth manufacturer.',
+        cast: 'Bryan Cranston, Aaron Paul, Anna Gunn',
+        director: 'Vince Gilligan',
+        genre: 'Drama, Crime, Thriller',
+        releaseDate: '2008-01-20',
+        last_modified: '1609459200',
+        rating: 'TV-MA',
+        rating_5based: 4.9,
+        backdrop_path: ['http://example.com/bb_backdrop.jpg'],
+        youtube_trailer: 'HhesaQXLuRY',
+        episode_run_time: '45',
+        category_id: '20',
+      },
+      {
+        num: 2,
+        name: 'The Office',
+        series_id: 5002,
+        cover: '',
+        plot: '',
+        cast: '',
+        director: '',
+        genre: '',
+        releaseDate: '',
+        last_modified: '',
+        rating: '',
+        rating_5based: 0,
+        category_id: '21',
+      },
+    ]
+
+    it('should fetch and normalize series', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockSeriesResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const series = await client.getSeries()
+
+      expect(series).toHaveLength(2)
+      expect(series[0]).toEqual({
+        id: '5001',
+        title: 'Breaking Bad',
+        description: 'A high school chemistry teacher turned meth manufacturer.',
+        categoryId: '20',
+        poster: 'http://example.com/bb.jpg',
+        backdrop: 'http://example.com/bb_backdrop.jpg',
+        year: 2008,
+        genres: ['Drama', 'Crime', 'Thriller'],
+        cast: ['Bryan Cranston', 'Aaron Paul', 'Anna Gunn'],
+        rating: 'TV-MA',
+        score: 4.9,
+        lastUpdated: '1609459200',
+      })
+      expect(series[1]).toEqual({
+        id: '5002',
+        title: 'The Office',
+        description: undefined,
+        categoryId: '21',
+        poster: undefined,
+        backdrop: undefined,
+        year: undefined,
+        genres: undefined,
+        cast: undefined,
+        rating: undefined,
+        score: undefined,
+        lastUpdated: undefined,
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getSeries()
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_series')
+      expect(calledUrl.searchParams.has('category_id')).toBe(false)
+    })
+
+    it('should filter by category when categoryId is provided', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getSeries('20')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('category_id')).toBe('20')
+    })
+
+    it('should handle empty series list', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const series = await client.getSeries()
+      expect(series).toEqual([])
+    })
+  })
+
+  describe('getSeriesByCategory', () => {
+    it('should call getSeries with category ID', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getSeriesByCategory('20')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_series')
+      expect(calledUrl.searchParams.get('category_id')).toBe('20')
+    })
+  })
+
+  describe('getSeriesInfo', () => {
+    const mockSeriesInfoResponse = {
+      seasons: [
+        {
+          air_date: '2008-01-20',
+          episode_count: 7,
+          id: 101,
+          name: 'Season 1',
+          overview: 'The first season of Breaking Bad.',
+          season_number: 1,
+          cover: 'http://example.com/s1.jpg',
+          cover_big: 'http://example.com/s1_big.jpg',
+        },
+        {
+          air_date: '2009-03-08',
+          episode_count: 13,
+          id: 102,
+          name: 'Season 2',
+          overview: 'The second season.',
+          season_number: 2,
+          cover: 'http://example.com/s2.jpg',
+        },
+      ],
+      info: {
+        name: 'Breaking Bad',
+        cover: 'http://example.com/bb.jpg',
+        plot: 'A high school chemistry teacher turned meth manufacturer.',
+        cast: 'Bryan Cranston, Aaron Paul',
+        director: 'Vince Gilligan',
+        genre: 'Drama, Crime',
+        releaseDate: '2008-01-20',
+        last_modified: '1609459200',
+        rating: 'TV-MA',
+        rating_5based: 4.9,
+        backdrop_path: ['http://example.com/bb_backdrop.jpg'],
+        youtube_trailer: 'HhesaQXLuRY',
+        episode_run_time: '45',
+        category_id: '20',
+      },
+      episodes: {
+        '1': [
+          {
+            id: '10001',
+            episode_num: 1,
+            title: 'Pilot',
+            container_extension: 'mkv',
+            info: {
+              movie_image: 'http://example.com/ep1.jpg',
+              plot: 'Walter White begins his journey.',
+              releasedate: '2008-01-20',
+              rating: 'TV-MA',
+              duration_secs: 3480,
+              duration: '00:58:00',
+              video: { codec_name: 'h264' },
+              audio: { codec_name: 'aac' },
+            },
+            custom_sid: '',
+            added: '1609459200',
+            season: 1,
+            direct_source: '',
+          },
+          {
+            id: '10002',
+            episode_num: 2,
+            title: "Cat's in the Bag...",
+            container_extension: 'mkv',
+            info: {
+              plot: 'Walt and Jesse try to dispose of a body.',
+            },
+            custom_sid: '',
+            added: '1609459200',
+            season: 1,
+            direct_source: '',
+          },
+        ],
+        '2': [
+          {
+            id: '10003',
+            episode_num: 1,
+            title: 'Seven Thirty-Seven',
+            container_extension: 'mp4',
+            info: {},
+            custom_sid: '',
+            added: '1609459200',
+            season: 2,
+            direct_source: '',
+          },
+        ],
+      },
+    }
+
+    it('should fetch and normalize series info with seasons and episodes', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(mockSeriesInfoResponse),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const seriesInfo = await client.getSeriesInfo('5001')
+
+      // Check series
+      expect(seriesInfo.series).toEqual({
+        id: '5001',
+        title: 'Breaking Bad',
+        description: 'A high school chemistry teacher turned meth manufacturer.',
+        categoryId: '20',
+        poster: 'http://example.com/bb.jpg',
+        backdrop: 'http://example.com/bb_backdrop.jpg',
+        year: 2008,
+        genres: ['Drama', 'Crime'],
+        cast: ['Bryan Cranston', 'Aaron Paul'],
+        rating: 'TV-MA',
+        score: 4.9,
+        seasonCount: 2,
+        episodeCount: 3,
+        lastUpdated: '1609459200',
+      })
+
+      // Check seasons
+      expect(seriesInfo.seasons).toHaveLength(2)
+      expect(seriesInfo.seasons[0]).toEqual({
+        id: '101',
+        seriesId: '5001',
+        seasonNumber: 1,
+        name: 'Season 1',
+        description: 'The first season of Breaking Bad.',
+        poster: 'http://example.com/s1_big.jpg',
+        airDate: '2008-01-20',
+        episodeCount: 7,
+      })
+      expect(seriesInfo.seasons[1]).toEqual({
+        id: '102',
+        seriesId: '5001',
+        seasonNumber: 2,
+        name: 'Season 2',
+        description: 'The second season.',
+        poster: 'http://example.com/s2.jpg',
+        airDate: '2009-03-08',
+        episodeCount: 13,
+      })
+
+      // Check episodes
+      expect(Object.keys(seriesInfo.episodes)).toHaveLength(2)
+      expect(seriesInfo.episodes['101']).toHaveLength(2)
+      expect(seriesInfo.episodes['102']).toHaveLength(1)
+
+      // Check first episode details
+      expect(seriesInfo.episodes['101'][0]).toEqual({
+        id: '10001',
+        seriesId: '5001',
+        seasonId: '101',
+        seasonNumber: 1,
+        episodeNumber: 1,
+        title: 'Pilot',
+        description: 'Walter White begins his journey.',
+        streamUrl: 'http://example.com:8080/series/testuser/testpass/10001.mkv',
+        streamType: 'vod',
+        thumbnail: 'http://example.com/ep1.jpg',
+        duration: 3480,
+        airDate: '2008-01-20',
+        rating: 'TV-MA',
+        containerFormat: 'mkv',
+        videoCodec: 'h264',
+        audioCodec: 'aac',
+      })
+
+      // Check episode with minimal info
+      expect(seriesInfo.episodes['101'][1]).toEqual({
+        id: '10002',
+        seriesId: '5001',
+        seasonId: '101',
+        seasonNumber: 1,
+        episodeNumber: 2,
+        title: "Cat's in the Bag...",
+        description: 'Walt and Jesse try to dispose of a body.',
+        streamUrl: 'http://example.com:8080/series/testuser/testpass/10002.mkv',
+        streamType: 'vod',
+        thumbnail: undefined,
+        duration: undefined,
+        airDate: undefined,
+        rating: undefined,
+        containerFormat: 'mkv',
+        videoCodec: undefined,
+        audioCodec: undefined,
+      })
+    })
+
+    it('should call the correct API endpoint', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            seasons: [],
+            info: {
+              name: 'Test',
+              cover: '',
+              plot: '',
+              cast: '',
+              director: '',
+              genre: '',
+              releaseDate: '',
+              last_modified: '',
+              rating: '',
+              rating_5based: 0,
+              category_id: '1',
+            },
+            episodes: {},
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      await client.getSeriesInfo('5001')
+
+      const calledUrl = new URL(mockFetch.mock.calls[0][0])
+      expect(calledUrl.searchParams.get('action')).toBe('get_series_info')
+      expect(calledUrl.searchParams.get('series_id')).toBe('5001')
+    })
+
+    it('should handle series with no seasons', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            seasons: [],
+            info: {
+              name: 'Empty Series',
+              cover: '',
+              plot: '',
+              cast: '',
+              director: '',
+              genre: '',
+              releaseDate: '',
+              last_modified: '',
+              rating: '',
+              rating_5based: 0,
+              category_id: '1',
+            },
+            episodes: {},
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const seriesInfo = await client.getSeriesInfo('9999')
+
+      expect(seriesInfo.series.title).toBe('Empty Series')
+      expect(seriesInfo.seasons).toEqual([])
+      expect(seriesInfo.episodes).toEqual({})
+      expect(seriesInfo.series.seasonCount).toBe(0)
+      expect(seriesInfo.series.episodeCount).toBe(0)
+    })
+
+    it('should handle episodes with missing container_extension', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            seasons: [
+              {
+                air_date: '',
+                episode_count: 1,
+                id: 1,
+                name: 'Season 1',
+                overview: '',
+                season_number: 1,
+              },
+            ],
+            info: {
+              name: 'Test',
+              cover: '',
+              plot: '',
+              cast: '',
+              director: '',
+              genre: '',
+              releaseDate: '',
+              last_modified: '',
+              rating: '',
+              rating_5based: 0,
+              category_id: '1',
+            },
+            episodes: {
+              '1': [
+                {
+                  id: '1001',
+                  episode_num: 1,
+                  title: 'Episode 1',
+                  container_extension: '',
+                  info: {},
+                  custom_sid: '',
+                  added: '',
+                  season: 1,
+                  direct_source: '',
+                },
+              ],
+            },
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const seriesInfo = await client.getSeriesInfo('1')
+      expect(seriesInfo.episodes['1'][0].streamUrl).toBe(
+        'http://example.com:8080/series/testuser/testpass/1001.m3u8'
+      )
+    })
+
+    it('should use default episode title when missing', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            seasons: [
+              {
+                air_date: '',
+                episode_count: 1,
+                id: 1,
+                name: 'Season 1',
+                overview: '',
+                season_number: 1,
+              },
+            ],
+            info: {
+              name: 'Test',
+              cover: '',
+              plot: '',
+              cast: '',
+              director: '',
+              genre: '',
+              releaseDate: '',
+              last_modified: '',
+              rating: '',
+              rating_5based: 0,
+              category_id: '1',
+            },
+            episodes: {
+              '1': [
+                {
+                  id: '1001',
+                  episode_num: 5,
+                  title: '',
+                  container_extension: 'mkv',
+                  info: {},
+                  custom_sid: '',
+                  added: '',
+                  season: 1,
+                  direct_source: '',
+                },
+              ],
+            },
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const seriesInfo = await client.getSeriesInfo('1')
+      expect(seriesInfo.episodes['1'][0].title).toBe('Episode 5')
+    })
+
+    it('should use default season name when missing', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            seasons: [
+              {
+                air_date: '',
+                episode_count: 1,
+                id: 1,
+                name: '',
+                overview: '',
+                season_number: 3,
+              },
+            ],
+            info: {
+              name: 'Test',
+              cover: '',
+              plot: '',
+              cast: '',
+              director: '',
+              genre: '',
+              releaseDate: '',
+              last_modified: '',
+              rating: '',
+              rating_5based: 0,
+              category_id: '1',
+            },
+            episodes: {},
+          }),
+      })
+
+      const client = new XtreamClient({
+        serverUrl: 'http://example.com:8080',
+        username: 'testuser',
+        password: 'testpass',
+      })
+
+      const seriesInfo = await client.getSeriesInfo('1')
+      expect(seriesInfo.seasons[0].name).toBe('Season 3')
+    })
+  })
+})

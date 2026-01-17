@@ -1610,3 +1610,26 @@ src/core/hooks/useVODQueries.test.tsx
 src/core/hooks/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching VOD content
+Status: completed
+Time: 23:53:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useVODQueries.test.tsx
+src/core/hooks/useVODQueries.ts
+
+---
+2026-01-17: Create React Query hooks for fetching series content
+Status: completed
+Time: 23:56:48
+Files Changed:
+src/core/hooks/useSeriesQueries.ts
+src/core/hooks/useSeriesQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt
+

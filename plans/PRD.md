@@ -108,7 +108,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Create Zustand store for settings (quality preferences, buffer size)
 - [x] Create React Query hooks for fetching channels with caching
 - [x] Create React Query hooks for fetching VOD content
-- [ ] Create React Query hooks for fetching series content
+- [x] Create React Query hooks for fetching series content
 - [ ] Create React Query hooks for fetching EPG data
 - [ ] Build SourceSetup screen for first-launch onboarding
 - [ ] Build XtreamLoginForm component with server/username/password fields

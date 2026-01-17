@@ -23,3 +23,19 @@ export {
   type UseVODQueryOptions,
   type UseVODItemsByCategoryOptions,
 } from './useVODQueries'
+
+export {
+  seriesKeys,
+  useSeriesCategories,
+  useSeriesList,
+  useSeriesByCategory,
+  useSeriesInfo,
+  useSeriesContent,
+  usePrefetchSeries,
+  usePrefetchSeriesInfo,
+  useInvalidateSeries,
+  useClearSeriesCache,
+  type UseSeriesQueryOptions,
+  type UseSeriesByCategoryOptions,
+  type UseSeriesInfoOptions,
+} from './useSeriesQueries'

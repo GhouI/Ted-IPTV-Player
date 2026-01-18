@@ -2207,3 +2207,25 @@ src/features/settings/AboutSection.test.tsx
 src/features/settings/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Build AboutSection component with app version info
+Status: completed
+Time: 01:24:35
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/settings/AboutSection.test.tsx
+src/features/settings/AboutSection.tsx
+src/features/settings/index.ts
+
+---
+2026-01-18: Implement global error boundary with recovery UI
+Status: completed
+Time: 01:26:00
+Files Changed:
+src/core/components/ErrorBoundary.tsx
+src/core/components/ErrorBoundary.test.tsx
+src/core/components/index.ts
+plans/PRD.md
+plans/progress.txt

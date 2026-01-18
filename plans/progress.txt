@@ -1656,3 +1656,25 @@ src/core/hooks/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Create React Query hooks for fetching EPG data
+Status: completed
+Time: 00:00:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useEPGQueries.test.tsx
+src/core/hooks/useEPGQueries.ts
+
+---
+2026-01-18: Build SourceSetup screen for first-launch onboardi
+Status: completed
+Time: 00:00:14
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useEPGQueries.test.tsx
+src/core/hooks/useEPGQueries.ts

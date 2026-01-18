@@ -1691,3 +1691,27 @@ package-lock.json
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build XtreamLoginForm component with server/userna
+Status: completed
+Time: 00:04:00
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/features/sources/XtreamLoginForm.test.tsx
+src/features/sources/XtreamLoginForm.tsx
+src/features/sources/index.ts
+---
+2026-01-18: Build M3UUrlForm component with URL input and validation
+Status: completed
+Time: 00:06:00
+Files Changed:
+src/features/sources/M3UUrlForm.tsx
+src/features/sources/M3UUrlForm.test.tsx
+src/features/sources/index.ts
+plans/PRD.md
+plans/progress.txt
+

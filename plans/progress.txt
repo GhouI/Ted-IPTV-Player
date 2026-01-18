@@ -2335,3 +2335,31 @@ package-lock.json
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Create app icons (220x220 and 400x400 PNG)
+Status: completed
+Time: 01:56:09
+Files Changed:
+index.html
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+public/favicon-16.png
+public/favicon.png
+public/icon-220x220.png
+public/icon-400x400.png
+scripts/generate-icons.mjs
+src/test/icons.test.ts
+
+---
+2026-01-18: Create sideload documentation with step-by-step instructions
+Status: completed
+Time: 01:58:21
+Files Changed:
+docs/SIDELOAD.md
+src/test/sideload-docs.test.ts
+plans/PRD.md
+plans/progress.txt
+

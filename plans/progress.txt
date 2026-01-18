@@ -2185,3 +2185,25 @@ src/features/settings/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build SourceSettings component for managing IPTV s
+Status: completed
+Time: 01:21:52
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/settings/SourceSettings.test.tsx
+src/features/settings/SourceSettings.tsx
+src/features/settings/index.ts
+
+---
+2026-01-18: Build AboutSection component with app version info
+Status: completed
+Time: 01:24:30
+Files Changed:
+src/features/settings/AboutSection.tsx
+src/features/settings/AboutSection.test.tsx
+src/features/settings/index.ts
+plans/PRD.md
+plans/progress.txt

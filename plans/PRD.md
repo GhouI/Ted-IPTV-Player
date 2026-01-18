@@ -142,7 +142,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Build SettingsPage with sections for playback and sources
 - [x] Build PlaybackSettings component (quality, buffer size)
 - [x] Build SourceSettings component for managing IPTV sources
-- [ ] Build AboutSection component with app version info
+- [x] Build AboutSection component with app version info
 - [ ] Implement global error boundary with recovery UI
 - [ ] Implement stream error handling with retry logic
 - [ ] Implement source validation on add (test connection)

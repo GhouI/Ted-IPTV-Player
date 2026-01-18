@@ -2075,3 +2075,25 @@ src/features/player/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build PlayerOverlay component showing channel info
+Status: completed
+Time: 01:05:51
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/PlayerOverlay.test.tsx
+src/features/player/PlayerOverlay.tsx
+src/features/player/index.ts
+
+---
+2026-01-18: Build QualitySelector component for stream quality selection
+Status: completed
+Time: 01:08:30
+Files Changed:
+src/features/player/QualitySelector.tsx
+src/features/player/QualitySelector.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt

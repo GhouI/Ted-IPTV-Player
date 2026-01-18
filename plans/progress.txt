@@ -1784,3 +1784,33 @@ src/features/home/MenuCard.test.tsx
 src/features/home/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Build HomePage with main menu (Live TV, VOD, Serie
+Status: completed
+Time: 00:17:37
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/home/HomePage.test.tsx
+src/features/home/HomePage.tsx
+src/features/home/MenuCard.test.tsx
+src/features/home/MenuCard.tsx
+src/features/home/index.ts
+
+---
+2026-01-18: Build LiveTVPage with category sidebar and channel grid
+Status: completed
+Time: 00:24:01
+Files Changed:
+src/features/live/LiveTVPage.tsx
+src/features/live/LiveTVPage.test.tsx
+src/features/live/CategoryList.tsx
+src/features/live/CategoryList.test.tsx
+src/features/live/ChannelGrid.tsx
+src/features/live/ChannelGrid.test.tsx
+src/features/live/ChannelCard.tsx
+src/features/live/ChannelCard.test.tsx
+src/features/live/index.ts
+plans/PRD.md
+plans/progress.txt

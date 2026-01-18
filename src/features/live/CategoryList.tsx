@@ -1,0 +1,151 @@
+import {
+  useFocusable,
+  FocusContext,
+} from '@noriginmedia/norigin-spatial-navigation'
+import { useCallback } from 'react'
+import type { Category } from '../../core/types/channel'
+
+export interface CategoryListProps {
+  /** Array of categories to display */
+  categories: Category[]
+  /** Currently selected category ID */
+  selectedCategoryId: string | null
+  /** Callback when a category is selected */
+  onCategorySelect?: (category: Category) => void
+  /** Test ID for testing purposes */
+  testId?: string
+}
+
+export interface CategoryItemProps {
+  /** The category to display */
+  category: Category
+  /** Whether this category is selected */
+  isSelected: boolean
+  /** Callback when the category is selected */
+  onSelect?: () => void
+  /** Test ID for testing purposes */
+  testId?: string
+}
+
+/**
+ * CategoryItem - A single focusable category item in the list.
+ */
+function CategoryItem({
+  category,
+  isSelected,
+  onSelect,
+  testId,
+}: CategoryItemProps) {
+  const { ref, focused } = useFocusable({
+    focusKey: `CATEGORY_${category.id}`,
+    onEnterPress: onSelect,
+  })
+
+  const handleClick = () => {
+    onSelect?.()
+  }
+
+  const baseClasses = [
+    'w-full',
+    'px-4',
+    'py-3',
+    'text-left',
+    'rounded-lg',
+    'transition-all',
+    'duration-150',
+    'outline-none',
+  ]
+
+  const stateClasses = focused
+    ? [
+        'bg-tv-accent',
+        'text-white',
+        'shadow-[0_0_0_2px_var(--color-tv-accent),0_0_20px_var(--color-tv-accent-glow)]',
+      ]
+    : isSelected
+      ? ['bg-tv-accent/20', 'text-tv-accent', 'border', 'border-tv-accent/50']
+      : ['bg-transparent', 'text-tv-text', 'hover:bg-tv-border']
+
+  const combinedClasses = [...baseClasses, ...stateClasses].join(' ')
+
+  return (
+    <button
+      ref={ref}
+      className={combinedClasses}
+      data-testid={testId}
+      data-focused={focused}
+      data-selected={isSelected}
+      tabIndex={0}
+      aria-selected={isSelected}
+      onClick={handleClick}
+    >
+      <span className="block truncate text-tv-base font-medium">
+        {category.name}
+      </span>
+    </button>
+  )
+}
+
+/**
+ * CategoryList - Vertical list of categories with spatial navigation.
+ *
+ * Features:
+ * - Vertical navigation with TV remote
+ * - Visual indication of selected and focused states
+ * - Focus context for contained navigation
+ * - Scrollable when categories exceed viewport
+ */
+export function CategoryList({
+  categories,
+  selectedCategoryId,
+  onCategorySelect,
+  testId,
+}: CategoryListProps) {
+  const { ref, focusKey } = useFocusable({
+    focusKey: 'CATEGORY_LIST',
+    isFocusBoundary: true,
+    focusBoundaryDirections: ['left', 'right'],
+    trackChildren: true,
+    saveLastFocusedChild: true,
+  })
+
+  const handleCategorySelect = useCallback(
+    (category: Category) => {
+      onCategorySelect?.(category)
+    },
+    [onCategorySelect]
+  )
+
+  if (categories.length === 0) {
+    return (
+      <div
+        className="text-tv-text-muted text-tv-sm p-4 text-center"
+        data-testid={testId}
+      >
+        No categories available
+      </div>
+    )
+  }
+
+  return (
+    <FocusContext.Provider value={focusKey}>
+      <nav
+        ref={ref}
+        className="flex flex-col gap-1"
+        data-testid={testId}
+        role="listbox"
+        aria-label="Channel categories"
+      >
+        {categories.map((category) => (
+          <CategoryItem
+            key={category.id}
+            category={category}
+            isSelected={category.id === selectedCategoryId}
+            onSelect={() => handleCategorySelect(category)}
+            testId={testId ? `${testId}-item-${category.id}` : undefined}
+          />
+        ))}
+      </nav>
+    </FocusContext.Provider>
+  )
+}

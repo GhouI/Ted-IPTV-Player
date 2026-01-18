@@ -1760,3 +1760,27 @@ src/features/sources/SourceList.test.tsx
 src/features/sources/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Build SourceList component for managing saved sour
+Status: completed
+Time: 00:14:15
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/sources/SourceList.test.tsx
+src/features/sources/SourceList.tsx
+src/features/sources/index.ts
+
+---
+2026-01-18: Build HomePage with main menu and MenuCard component
+Status: completed
+Time: 00:17:00
+Files Changed:
+src/features/home/HomePage.tsx
+src/features/home/HomePage.test.tsx
+src/features/home/MenuCard.tsx
+src/features/home/MenuCard.test.tsx
+src/features/home/index.ts
+plans/PRD.md
+plans/progress.txt

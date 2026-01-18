@@ -113,7 +113,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Build SourceSetup screen for first-launch onboarding
 - [x] Build XtreamLoginForm component with server/username/password fields
 - [x] Build M3UUrlForm component with URL input and validation
-- [ ] Build AddSourceModal for adding new IPTV sources
+- [x] Build AddSourceModal for adding new IPTV sources
 - [ ] Build SourceList component for managing saved sources
 - [ ] Build HomePage with main menu (Live TV, VOD, Series, EPG, Settings)
 - [ ] Build MenuCard component for home screen navigation

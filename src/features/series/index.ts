@@ -9,3 +9,12 @@ export type { SeriesCategoryListProps, SeriesCategoryItemProps } from './SeriesC
 
 export { SeriesGrid } from './SeriesGrid'
 export type { SeriesGridProps } from './SeriesGrid'
+
+export { SeriesDetails } from './SeriesDetails'
+export type { SeriesDetailsProps } from './SeriesDetails'
+
+export { SeasonList } from './SeasonList'
+export type { SeasonListProps, SeasonItemProps } from './SeasonList'
+
+export { EpisodeList } from './EpisodeList'
+export type { EpisodeListProps, EpisodeCardProps } from './EpisodeList'

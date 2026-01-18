@@ -1886,3 +1886,35 @@ src/features/series/SeriesGrid.test.tsx
 src/features/series/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Build SeriesPage with series grid browsing
+Status: completed
+Time: 00:35:19
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/series/SeriesCard.test.tsx
+src/features/series/SeriesCard.tsx
+src/features/series/SeriesCategoryList.test.tsx
+src/features/series/SeriesCategoryList.tsx
+src/features/series/SeriesGrid.test.tsx
+src/features/series/SeriesGrid.tsx
+src/features/series/SeriesPage.test.tsx
+src/features/series/SeriesPage.tsx
+src/features/series/index.ts
+---
+2026-01-18: Build SeriesDetails screen with season and episode selection
+Status: completed
+Time: 00:40:07
+Files Changed:
+src/features/series/SeriesDetails.tsx
+src/features/series/SeriesDetails.test.tsx
+src/features/series/SeasonList.tsx
+src/features/series/SeasonList.test.tsx
+src/features/series/EpisodeList.tsx
+src/features/series/EpisodeList.test.tsx
+src/features/series/index.ts
+plans/PRD.md
+plans/progress.txt
+

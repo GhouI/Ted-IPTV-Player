@@ -152,7 +152,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Write unit tests for PlayerAdapter implementations
 - [x] Write unit tests for EPG parser and cache
 - [x] Write unit tests for CredentialStore encryption
-- [ ] Create app icons (220x220 and 400x400 PNG)
+- [x] Create app icons (220x220 and 400x400 PNG)
 - [x] Configure Vite build for production optimization
 - [ ] Create sideload documentation with step-by-step instructions
 - [ ] Test full app flow on actual VIDAA TV device

@@ -2383,3 +2383,33 @@ docs/SIDELOAD.md
 plans/PRD.md
 plans/progress.txt
 src/test/sideload-docs.test.ts
+
+---
+2026-01-18: Fix any TV-specific navigation or playback issues
+Status: completed
+Time: 02:14:00
+Files Changed:
+src/core/navigation/KeyEventManager.ts (new)
+src/core/navigation/KeyEventManager.test.ts (new)
+src/core/navigation/useFocusOnMount.ts (new)
+src/core/navigation/useFocusOnMount.test.tsx (new)
+src/core/navigation/useBackHandler.ts
+src/core/navigation/useBackHandler.test.tsx
+src/core/navigation/index.ts
+src/core/components/Modal.tsx
+src/core/stores/playerStore.ts
+src/features/player/PlayerOverlay.tsx
+src/features/epg/ProgramDetails.tsx
+src/features/vod/VODDetails.tsx
+src/features/series/SeriesDetails.tsx
+plans/PRD.md
+plans/progress.txt
+
+Summary:
+- Created centralized KeyEventManager for priority-based key event handling
+- Eliminated key event listener conflicts between modals, player, and navigation
+- Fixed focus restoration using Norigin Spatial Navigation setFocus
+- Added controlsShownAt timestamp to player store for auto-hide timer reset
+- Standardized Back key handling across all modal components
+- Created useFocusOnMount and useFocusRestoration hooks for state transitions
+- All 2088 tests passing

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useBackHandler } from './useBackHandler'
 import { VIDAA_KEY_CODES } from './SpatialNavigationProvider'
+import { KeyEventManager } from './KeyEventManager'
 
 describe('useBackHandler', () => {
   const createKeyboardEvent = (keyCode: number): KeyboardEvent => {
@@ -15,10 +16,13 @@ describe('useBackHandler', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    // Clean up KeyEventManager between tests
+    KeyEventManager.destroy()
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
+    KeyEventManager.destroy()
   })
 
   it('should initialize with showExitDialog as false', () => {
@@ -150,17 +154,16 @@ describe('useBackHandler', () => {
     expect(result.current.showExitDialog).toBe(false)
   })
 
-  it('should remove event listener on unmount', () => {
-    const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener')
-    const { unmount } = renderHook(() => useBackHandler())
+  it('should unregister from KeyEventManager on unmount', () => {
+    const { unmount } = renderHook(() => useBackHandler({ handlerId: 'test-back-handler' }))
+
+    // Handler should be registered
+    expect(KeyEventManager.getRegisteredHandlers()).toContain('test-back-handler')
 
     unmount()
 
-    expect(removeEventListenerSpy).toHaveBeenCalledWith(
-      'keydown',
-      expect.any(Function),
-      true
-    )
+    // Handler should be unregistered
+    expect(KeyEventManager.getRegisteredHandlers()).not.toContain('test-back-handler')
   })
 
   it('should prevent default and stop propagation on back button press', () => {

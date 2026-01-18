@@ -156,7 +156,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Configure Vite build for production optimization
 - [x] Create sideload documentation with step-by-step instructions
 - [x] Test full app flow on actual VIDAA TV device
-- [ ] Fix any TV-specific navigation or playback issues
+- [x] Fix any TV-specific navigation or playback issues
 
 ## Acceptance Criteria
 

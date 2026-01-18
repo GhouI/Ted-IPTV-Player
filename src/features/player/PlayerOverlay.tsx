@@ -1,6 +1,7 @@
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import type { Channel, Program } from '../../core/types/channel'
 import { useEPGStore } from '../../core/stores/epgStore'
+import { usePlayerStore } from '../../core/stores/playerStore'
 
 export interface PlayerOverlayProps {
   /** The channel currently being played */
@@ -86,10 +87,14 @@ export function PlayerOverlay({
   testId,
 }: PlayerOverlayProps) {
   const [isVisible, setIsVisible] = useState(visible)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Get EPG functions from store
   const getCurrentProgram = useEPGStore((state) => state.getCurrentProgram)
   const getNextProgram = useEPGStore((state) => state.getNextProgram)
+
+  // Get the controls shown timestamp for resetting the auto-hide timer
+  const controlsShownAt = usePlayerStore((state) => state.controlsShownAt)
 
   // Get channel EPG ID
   const channelId = channel?.epgChannelId || channel?.id || ''
@@ -125,16 +130,28 @@ export function PlayerOverlay({
     setIsVisible(visible)
   }, [visible])
 
-  // Auto-hide logic
+  // Auto-hide logic with timer reset on user interaction
   useEffect(() => {
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+
     if (!isVisible || autoHideDelay <= 0) return
 
-    const timer = setTimeout(() => {
+    // Set new timer - this will be reset whenever controlsShownAt changes
+    timerRef.current = setTimeout(() => {
       handleVisibilityChange(false)
     }, autoHideDelay)
 
-    return () => clearTimeout(timer)
-  }, [isVisible, autoHideDelay, handleVisibilityChange])
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
+    }
+  }, [isVisible, autoHideDelay, handleVisibilityChange, controlsShownAt])
 
   // Don't render if no channel
   if (!channel) {

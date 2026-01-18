@@ -2,8 +2,9 @@ import {
   useFocusable,
   FocusContext,
 } from '@noriginmedia/norigin-spatial-navigation'
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import type { VODItem } from '../../core/types/vod'
+import { KeyEventManager, isBackKey } from '../../core/navigation'
 
 export interface VODDetailsProps {
   /** The VOD item to display details for */
@@ -36,6 +37,12 @@ export function VODDetails({
   testId,
 }: VODDetailsProps) {
   const [imageError, setImageError] = useState(false)
+  const onCloseRef = useRef(onClose)
+
+  // Keep onClose ref updated
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
 
   const { ref, focusKey, focusSelf } = useFocusable({
     focusKey: 'VOD_DETAILS_MODAL',
@@ -50,20 +57,28 @@ export function VODDetails({
     }
   }, [isOpen, focusSelf])
 
-  // Handle keyboard events for closing
+  // Handle keyboard events for closing via KeyEventManager
   useEffect(() => {
     if (!isOpen) return
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'XF86Back') {
-        e.preventDefault()
-        onClose()
-      }
-    }
+    // Initialize KeyEventManager
+    KeyEventManager.init()
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onClose])
+    // Register with modal priority (highest)
+    const unregister = KeyEventManager.register({
+      id: 'vod-details-modal',
+      priority: 'modal',
+      handler: (event: KeyboardEvent): boolean => {
+        if (isBackKey(event)) {
+          onCloseRef.current()
+          return true
+        }
+        return false
+      },
+    })
+
+    return unregister
+  }, [isOpen])
 
   const handleImageError = useCallback(() => {
     setImageError(true)

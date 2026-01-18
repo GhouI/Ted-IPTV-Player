@@ -2,7 +2,7 @@ import {
   useFocusable,
   FocusContext,
 } from '@noriginmedia/norigin-spatial-navigation'
-import { useCallback, useEffect, useState, useMemo } from 'react'
+import { useCallback, useEffect, useState, useMemo, useRef } from 'react'
 import type { Series, Season, Episode } from '../../core/types/vod'
 import type { Source } from '../../core/types/source'
 import { useSeriesInfo } from '../../core/hooks/useSeriesQueries'
@@ -10,6 +10,7 @@ import { useSeriesStore } from '../../core/stores/seriesStore'
 import { SeasonList } from './SeasonList'
 import { EpisodeList } from './EpisodeList'
 import { Skeleton, SkeletonList } from '../../core/components/Skeleton'
+import { KeyEventManager, isBackKey } from '../../core/navigation'
 
 export interface SeriesDetailsProps {
   /** The series to display details for */
@@ -42,6 +43,12 @@ export function SeriesDetails({
   testId,
 }: SeriesDetailsProps) {
   const [imageError, setImageError] = useState(false)
+  const onBackRef = useRef(onBack)
+
+  // Keep onBack ref updated
+  useEffect(() => {
+    onBackRef.current = onBack
+  }, [onBack])
 
   const { ref, focusKey, focusSelf } = useFocusable({
     focusKey: 'SERIES_DETAILS',
@@ -108,18 +115,26 @@ export function SeriesDetails({
     focusSelf()
   }, [focusSelf])
 
-  // Handle keyboard events for back navigation
+  // Handle keyboard events for back navigation via KeyEventManager
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'XF86Back') {
-        e.preventDefault()
-        onBack()
-      }
-    }
+    // Initialize KeyEventManager
+    KeyEventManager.init()
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onBack])
+    // Register with navigation priority (lower than modals)
+    const unregister = KeyEventManager.register({
+      id: 'series-details',
+      priority: 'navigation',
+      handler: (event: KeyboardEvent): boolean => {
+        if (isBackKey(event)) {
+          onBackRef.current()
+          return true
+        }
+        return false
+      },
+    })
+
+    return unregister
+  }, [])
 
   const handleImageError = useCallback(() => {
     setImageError(true)

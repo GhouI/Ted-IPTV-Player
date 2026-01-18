@@ -50,6 +50,8 @@ export interface PlayerStoreState {
   error: PlayerError | null
   /** Whether player controls should be visible */
   controlsVisible: boolean
+  /** Timestamp when controls were last shown (for auto-hide reset) */
+  controlsShownAt: number
   /** Whether player is in fullscreen mode */
   isFullscreen: boolean
 }
@@ -134,6 +136,7 @@ const initialState: PlayerStoreState = {
   selectedSubtitleTrack: null,
   error: null,
   controlsVisible: true,
+  controlsShownAt: Date.now(),
   isFullscreen: false,
 }
 
@@ -207,7 +210,7 @@ export const usePlayerStore = create<PlayerStoreState & PlayerStoreActions>()(
 
     setSeekable: (isSeekable) => set({ isSeekable }),
 
-    showControls: () => set({ controlsVisible: true }),
+    showControls: () => set({ controlsVisible: true, controlsShownAt: Date.now() }),
 
     hideControls: () => set({ controlsVisible: false }),
 

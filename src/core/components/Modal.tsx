@@ -1,5 +1,6 @@
-import { useEffect, useRef, type ReactNode } from 'react'
-import { useFocusable, FocusContext } from '@noriginmedia/norigin-spatial-navigation'
+import { useEffect, useRef, useCallback, type ReactNode } from 'react'
+import { useFocusable, FocusContext, setFocus } from '@noriginmedia/norigin-spatial-navigation'
+import { KeyEventManager, isBackKey } from '../navigation/KeyEventManager'
 
 export interface ModalProps {
   /** Whether the modal is visible */
@@ -64,39 +65,62 @@ export function Modal({
     focusKey,
     focusBoundaryDirections: ['up', 'down', 'left', 'right'],
   })
-  const previousFocusRef = useRef<Element | null>(null)
+  const previousFocusKeyRef = useRef<string | null>(null)
+  const onCloseRef = useRef(onClose)
 
-  // Store and restore focus
+  // Keep onClose ref updated
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
+
+  // Store and restore focus using Norigin Spatial Navigation
   useEffect(() => {
     if (isOpen) {
-      previousFocusRef.current = document.activeElement
-    } else if (previousFocusRef.current instanceof HTMLElement) {
-      previousFocusRef.current.focus()
-      previousFocusRef.current = null
-    }
-  }, [isOpen])
+      // Store the current focus key before modal opens
+      // We'll use the modal's focus key to set focus when it opens
+      const activeElement = document.activeElement as HTMLElement
+      const currentFocusKey = activeElement?.getAttribute('data-focus-key')
+      previousFocusKeyRef.current = currentFocusKey
 
-  // Handle Escape/Back key
+      // Focus the modal after a brief delay to ensure it's mounted
+      const timer = setTimeout(() => {
+        setFocus(focusKey)
+      }, 50)
+      return () => clearTimeout(timer)
+    } else if (previousFocusKeyRef.current) {
+      // Restore focus using Norigin's setFocus
+      setFocus(previousFocusKeyRef.current)
+      previousFocusKeyRef.current = null
+    }
+  }, [isOpen, focusKey])
+
+  // Handle close callback for KeyEventManager
+  const handleClose = useCallback(() => {
+    onCloseRef.current()
+  }, [])
+
+  // Handle Escape/Back key via KeyEventManager
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Escape key or Back button (common TV remote codes)
-      if (
-        event.key === 'Escape' ||
-        event.key === 'Backspace' ||
-        event.keyCode === 10009 || // Samsung/LG Back
-        event.keyCode === 461 // Hisense/VIDAA Back
-      ) {
-        event.preventDefault()
-        event.stopPropagation()
-        onClose()
-      }
-    }
+    // Initialize KeyEventManager
+    KeyEventManager.init()
 
-    window.addEventListener('keydown', handleKeyDown, true)
-    return () => window.removeEventListener('keydown', handleKeyDown, true)
-  }, [isOpen, closeOnEscape, onClose])
+    // Register with highest priority (modal)
+    const unregister = KeyEventManager.register({
+      id: `modal-${focusKey}`,
+      priority: 'modal',
+      handler: (event: KeyboardEvent): boolean => {
+        if (isBackKey(event)) {
+          handleClose()
+          return true
+        }
+        return false
+      },
+    })
+
+    return unregister
+  }, [isOpen, closeOnEscape, focusKey, handleClose])
 
   // Prevent body scroll when modal is open
   useEffect(() => {

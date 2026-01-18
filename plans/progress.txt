@@ -1952,3 +1952,33 @@ src/features/epg/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build EPGPage with full program guide grid
+Status: completed
+Time: 00:47:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/epg/EPGChannelList.test.tsx
+src/features/epg/EPGChannelList.tsx
+src/features/epg/EPGGrid.test.tsx
+src/features/epg/EPGGrid.tsx
+src/features/epg/EPGPage.test.tsx
+src/features/epg/EPGPage.tsx
+src/features/epg/EPGProgram.test.tsx
+src/features/epg/EPGProgram.tsx
+src/features/epg/EPGTimeline.test.tsx
+src/features/epg/EPGTimeline.tsx
+src/features/epg/index.ts
+
+---
+2026-01-18: Build MiniEPG component showing now/next for current channel
+Status: completed
+Time: 00:49:26
+Files Changed:
+src/features/epg/MiniEPG.tsx
+src/features/epg/MiniEPG.test.tsx
+src/features/epg/index.ts
+plans/PRD.md
+plans/progress.txt

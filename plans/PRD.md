@@ -136,7 +136,7 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Build ProgramDetails modal with program information
 - [x] Build VideoPlayer component with Shaka integration
 - [x] Build PlayerControls component (play/pause, seek, volume)
-- [ ] Build PlayerOverlay component showing channel info
+- [x] Build PlayerOverlay component showing channel info
 - [ ] Build QualitySelector component for stream quality selection
 - [ ] Implement player remote control handling (play/pause, channel up/down)
 - [ ] Build SettingsPage with sections for playback and sources

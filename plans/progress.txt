@@ -1982,3 +1982,26 @@ src/features/epg/MiniEPG.test.tsx
 src/features/epg/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Build MiniEPG component showing now/next for curre
+Status: completed
+Time: 00:49:55
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/epg/MiniEPG.test.tsx
+src/features/epg/MiniEPG.tsx
+src/features/epg/index.ts
+
+---
+2026-01-18: Build ProgramDetails modal with program information
+Status: completed
+Time: 00:52:48
+Files Changed:
+src/features/epg/ProgramDetails.tsx
+src/features/epg/ProgramDetails.test.tsx
+src/features/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+

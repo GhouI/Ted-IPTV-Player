@@ -16,3 +16,10 @@ export { PlayerOverlay } from './PlayerOverlay'
 export type { PlayerOverlayProps } from './PlayerOverlay'
 export { QualitySelector } from './QualitySelector'
 export type { QualitySelectorProps } from './QualitySelector'
+export { useStreamErrorHandler } from './useStreamErrorHandler'
+export type {
+  StreamErrorHandlerConfig,
+  StreamErrorHandlerResult,
+} from './useStreamErrorHandler'
+export { StreamErrorDisplay } from './StreamErrorDisplay'
+export type { StreamErrorDisplayProps } from './StreamErrorDisplay'

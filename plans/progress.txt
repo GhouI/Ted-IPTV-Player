@@ -2229,3 +2229,27 @@ src/core/components/ErrorBoundary.test.tsx
 src/core/components/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Implement global error boundary with recovery UI
+Status: completed
+Time: 01:26:29
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/components/ErrorBoundary.test.tsx
+src/core/components/ErrorBoundary.tsx
+src/core/components/index.ts
+
+---
+2026-01-18: Implement stream error handling with retry logic
+Status: completed
+Time: 01:37:00
+Files Changed:
+src/features/player/useStreamErrorHandler.ts
+src/features/player/useStreamErrorHandler.test.tsx
+src/features/player/StreamErrorDisplay.tsx
+src/features/player/StreamErrorDisplay.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt

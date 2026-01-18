@@ -2277,3 +2277,29 @@ src/core/api/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Implement source validation on add (test connectio
+Status: completed
+Time: 01:41:51
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/sourceValidator.test.ts
+src/core/api/sourceValidator.ts
+
+---
+2026-01-18: Configure Vite build for production optimization
+Status: completed
+Time: 01:51:17
+Files Changed:
+vite.config.ts
+src/test/vite-config.test.ts
+src/core/hooks/useEPGQueries.ts
+src/features/epg/EPGPage.test.tsx
+src/features/settings/SettingsPage.test.tsx
+src/features/settings/SourceSettings.test.tsx
+plans/PRD.md
+plans/progress.txt
+

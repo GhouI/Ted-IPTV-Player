@@ -21,15 +21,17 @@ const mockSources: Source[] = [
     id: 'xtream-1',
     name: 'My IPTV Provider',
     type: 'xtream',
-    server: 'http://example.com',
+    serverUrl: 'http://example.com',
     username: 'user1',
     password: 'pass1',
+    createdAt: Date.now(),
   },
   {
     id: 'm3u-1',
     name: 'My M3U Playlist',
     type: 'm3u',
-    url: 'http://example.com/playlist.m3u',
+    playlistUrl: 'http://example.com/playlist.m3u',
+    createdAt: Date.now(),
   },
 ]
 

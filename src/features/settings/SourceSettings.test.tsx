@@ -20,13 +20,15 @@ const mockXtreamSource: XtreamSource = {
   serverUrl: 'http://example.com',
   username: 'user',
   password: 'pass',
+  createdAt: Date.now(),
 }
 
 const mockM3USource: M3USource = {
   id: 'm3u-1',
   name: 'My M3U Playlist',
   type: 'm3u',
-  url: 'http://example.com/playlist.m3u',
+  playlistUrl: 'http://example.com/playlist.m3u',
+  createdAt: Date.now(),
 }
 
 const mockSources: Source[] = [mockXtreamSource, mockM3USource]

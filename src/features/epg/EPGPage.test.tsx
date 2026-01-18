@@ -255,7 +255,11 @@ describe('EPGPage', () => {
         data: [],
         isLoading: false,
         error: null,
-      } as ReturnType<typeof useLiveChannels>)
+        isSuccess: true,
+        isPending: false,
+        isError: false,
+        status: 'success',
+      } as unknown as ReturnType<typeof useLiveChannels>)
 
       vi.mocked(useEPGTimeRange).mockReturnValue({
         data: mockEPGData,
@@ -273,7 +277,11 @@ describe('EPGPage', () => {
         data: [],
         isLoading: false,
         error: null,
-      } as ReturnType<typeof useLiveChannels>)
+        isSuccess: true,
+        isPending: false,
+        isError: false,
+        status: 'success',
+      } as unknown as ReturnType<typeof useLiveChannels>)
 
       vi.mocked(useEPGTimeRange).mockReturnValue({
         data: undefined,

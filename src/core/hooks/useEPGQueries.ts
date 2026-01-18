@@ -108,6 +108,14 @@ export interface UseChannelEPGOptions extends UseEPGQueryOptions<Program[]> {
 }
 
 /**
+ * Options for fetching current program for a specific channel
+ */
+export interface UseCurrentProgramOptions extends UseEPGQueryOptions<Program | null> {
+  /** Channel ID to fetch current program for */
+  channelId: string | null
+}
+
+/**
  * Hook to fetch EPG data for a specific channel
  *
  * @example
@@ -160,7 +168,7 @@ export function useChannelEPG(options: UseChannelEPGOptions) {
  * }
  * ```
  */
-export function useCurrentProgram(options: UseChannelEPGOptions) {
+export function useCurrentProgram(options: UseCurrentProgramOptions) {
   const { source, channelId, enabled = true, staleTime, gcTime, queryOptions } = options
 
   return useQuery<Program | null, Error>({

@@ -1,5 +1,5 @@
-import { useEffect, useCallback, useState } from 'react'
-import { VIDAA_KEY_CODES } from './SpatialNavigationProvider'
+import { useEffect, useCallback, useState, useRef } from 'react'
+import { KeyEventManager, isBackKey } from './KeyEventManager'
 
 export interface BackHandlerOptions {
   /**
@@ -12,6 +12,11 @@ export interface BackHandlerOptions {
    * @default true
    */
   showExitConfirmation?: boolean
+  /**
+   * Unique ID for this handler instance (for debugging)
+   * @default 'back-handler'
+   */
+  handlerId?: string
 }
 
 export interface BackHandlerState {
@@ -26,10 +31,23 @@ export interface BackHandlerState {
 /**
  * Hook that handles the back button press on VIDAA TV remotes.
  * Shows an exit confirmation dialog when at root level (no history to go back to).
+ * Uses KeyEventManager for coordinated event handling with other components.
  */
 export function useBackHandler(options: BackHandlerOptions = {}): BackHandlerState {
-  const { onBack, showExitConfirmation = true } = options
+  const { onBack, showExitConfirmation = true, handlerId = 'back-handler' } = options
   const [showExitDialog, setShowExitDialog] = useState(false)
+
+  // Use refs to avoid stale closures in the handler
+  const onBackRef = useRef(onBack)
+  const showExitDialogRef = useRef(showExitDialog)
+
+  useEffect(() => {
+    onBackRef.current = onBack
+  }, [onBack])
+
+  useEffect(() => {
+    showExitDialogRef.current = showExitDialog
+  }, [showExitDialog])
 
   const confirmExit = useCallback(() => {
     setShowExitDialog(false)
@@ -58,48 +76,46 @@ export function useBackHandler(options: BackHandlerOptions = {}): BackHandlerSta
     setShowExitDialog(false)
   }, [])
 
-  const handleBackButton = useCallback(
-    (event: KeyboardEvent) => {
-      const keyCode = event.keyCode || event.which
-
-      // Check if it's the back button (VIDAA or fallback)
-      if (keyCode !== VIDAA_KEY_CODES.BACK && keyCode !== VIDAA_KEY_CODES.BACK_ALT) {
-        return
-      }
-
-      event.preventDefault()
-      event.stopPropagation()
-
-      // If exit dialog is showing, cancel it on back press
-      if (showExitDialog) {
-        setShowExitDialog(false)
-        return
-      }
-
-      // Try the custom back handler first
-      if (onBack) {
-        const handled = onBack()
-        if (handled) {
-          return
-        }
-      }
-
-      // At root level - show exit confirmation or exit directly
-      if (showExitConfirmation) {
-        setShowExitDialog(true)
-      } else {
-        confirmExit()
-      }
-    },
-    [onBack, showExitConfirmation, showExitDialog, confirmExit]
-  )
-
   useEffect(() => {
-    window.addEventListener('keydown', handleBackButton, true)
-    return () => {
-      window.removeEventListener('keydown', handleBackButton, true)
-    }
-  }, [handleBackButton])
+    // Initialize KeyEventManager
+    KeyEventManager.init()
+
+    // Register handler with navigation priority (lower than modal)
+    const unregister = KeyEventManager.register({
+      id: handlerId,
+      priority: 'navigation',
+      handler: (event: KeyboardEvent): boolean => {
+        // Only handle back key
+        if (!isBackKey(event)) {
+          return false
+        }
+
+        // If exit dialog is showing, cancel it on back press
+        if (showExitDialogRef.current) {
+          setShowExitDialog(false)
+          return true
+        }
+
+        // Try the custom back handler first
+        if (onBackRef.current) {
+          const handled = onBackRef.current()
+          if (handled) {
+            return true
+          }
+        }
+
+        // At root level - show exit confirmation or exit directly
+        if (showExitConfirmation) {
+          setShowExitDialog(true)
+        } else {
+          confirmExit()
+        }
+        return true
+      },
+    })
+
+    return unregister
+  }, [handlerId, showExitConfirmation, confirmExit])
 
   return {
     showExitDialog,

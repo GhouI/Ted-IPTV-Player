@@ -899,3 +899,1517 @@ src/core/components/Grid.test.tsx
 src/core/components/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-17: Create Grid component with spatial navigation supp
+Status: completed
+Time: 22:01:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/components/Grid.test.tsx
+src/core/components/Grid.tsx
+src/core/components/index.ts
+---
+2026-01-17: Create Modal component with focus trapping
+Status: completed
+Time: 22:04:41
+Files Changed:
+src/core/components/Modal.tsx
+src/core/components/Modal.test.tsx
+src/core/components/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Create Modal component with focus trapping
+Status: completed
+Time: 22:05:02
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/components/Modal.test.tsx
+src/core/components/Modal.tsx
+src/core/components/index.ts
+
+---
+2026-01-17: Create Toast component for notifications
+Status: completed
+Time: 22:08:22
+Files Changed:
+src/core/components/Toast.tsx
+src/core/components/Toast.test.tsx
+src/core/components/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Create Toast component for notifications
+Status: completed
+Time: 22:08:33
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/components/Toast.test.tsx
+src/core/components/Toast.tsx
+src/core/components/index.ts
+
+---
+2026-01-17: Create Skeleton component for loading states
+Status: completed
+Time: 22:10:15
+Files Changed:
+src/core/components/Skeleton.tsx
+src/core/components/Skeleton.test.tsx
+src/core/components/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for Channel, Category, Pro
+Status: completed
+Time: 22:10:38
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/components/Skeleton.test.tsx
+src/core/components/Skeleton.tsx
+src/core/components/index.ts
+
+---
+2026-01-17: Define TypeScript types for VOD, Series, Episode
+Status: completed
+Time: 22:14:22
+Files Changed:
+src/core/types/index.ts
+src/core/types/channel.ts
+src/core/types/vod.ts
+src/core/types/vod.test.ts
+src/core/types/source.ts
+src/core/types/player.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for VOD, Series, Episode
+Status: completed
+Time: 22:14:49
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/types/channel.ts
+src/core/types/index.ts
+src/core/types/player.ts
+src/core/types/source.ts
+src/core/types/vod.test.ts
+src/core/types/vod.ts
+---
+2026-01-17: Define TypeScript types for Source (Xtream and M3U)
+Status: completed
+Time: 22:16:26
+Files Changed:
+src/core/types/source.ts
+src/core/types/source.test.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Define TypeScript types for Source (Xtream and M3U
+Status: completed
+Time: 22:16:40
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/types/source.test.ts
+src/core/types/source.ts
+
+---
+2026-01-17: Define TypeScript types for Player state and events
+Status: completed
+Time: 22:18:30
+Files Changed:
+src/core/types/player.ts
+src/core/types/player.test.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Define TypeScript types for Player state and event
+Status: completed
+Time: 22:18:57
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/types/player.test.ts
+src/core/types/player.ts
+
+---
+2026-01-17: Implement Xtream Codes API client with authentication
+Status: completed
+Time: 22:22:18
+Files Changed:
+src/core/api/xtreamClient.ts
+src/core/api/xtreamClient.test.ts
+src/core/api/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream Codes API client with authenticat
+Status: completed
+Time: 22:22:48
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/xtreamClient.test.ts
+src/core/api/xtreamClient.ts
+
+---
+2026-01-17: Implement Xtream client methods for live streams and categories
+Status: completed
+Time: 22:25:00
+Files Changed:
+src/core/api/xtreamClient.ts
+src/core/api/xtreamClient.test.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client methods for live streams a
+Status: completed
+Time: 22:25:17
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/xtreamClient.test.ts
+src/core/api/xtreamClient.ts
+
+---
+2026-01-17: Implement Xtream client methods for VOD streams and categories
+Status: completed
+Time: 22:27:30
+Files Changed:
+src/core/api/xtreamClient.ts
+src/core/api/xtreamClient.test.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client methods for VOD streams an
+Status: completed
+Time: 22:27:48
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/xtreamClient.test.ts
+src/core/api/xtreamClient.ts
+---
+2026-01-17: Implement Xtream client methods for series and episodes
+Status: completed
+Time: 22:31:48
+Files Changed:
+src/core/api/xtreamClient.test.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Implement Xtream client methods for series and epi
+Status: completed
+Time: 22:32:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/xtreamClient.test.ts
+src/core/api/xtreamClient.ts
+
+---
+2026-01-17: Implement Xtream client method for EPG data
+Status: completed
+Time: 22:34:30
+Files Changed:
+src/core/api/xtreamClient.ts
+src/core/api/xtreamClient.test.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement Xtream client method for EPG data
+Status: completed
+Time: 22:34:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/xtreamClient.test.ts
+src/core/api/xtreamClient.ts
+
+---
+2026-01-17: Implement M3U playlist parser wrapper using iptv-playlist-parser
+Status: completed
+Time: 22:39:00
+Files Changed:
+src/core/api/m3uParser.ts
+src/core/api/m3uParser.test.ts
+src/core/api/index.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement M3U playlist parser wrapper using iptv-m
+Status: completed
+Time: 22:39:47
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/m3uParser.test.ts
+src/core/api/m3uParser.ts
+---
+2026-01-17: Implement M3U adapter to extract channels and categories
+Status: completed
+Time: 22:41:55
+Files Changed:
+src/core/api/m3uAdapter.ts
+src/core/api/m3uAdapter.test.ts
+src/core/api/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Implement M3U adapter to extract channels and cate
+Status: completed
+Time: 22:42:11
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/m3uAdapter.test.ts
+src/core/api/m3uAdapter.ts
+
+---
+2026-01-17: Implement SourceNormalizer to unify Xtream and M3U data formats
+Status: completed
+Time: 22:49:20
+Files Changed:
+src/core/api/sourceNormalizer.ts
+src/core/api/sourceNormalizer.test.ts
+src/core/api/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement SourceNormalizer to unify Xtream and M3U
+Status: completed
+Time: 22:49:46
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/sourceNormalizer.test.ts
+src/core/api/sourceNormalizer.ts
+
+---
+2026-01-17: Implement CredentialStore with encrypted localStorage
+Status: completed
+Time: 22:54:36
+Files Changed:
+src/core/api/credentialStore.ts
+src/core/api/credentialStore.test.ts
+src/core/api/index.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement CredentialStore with encrypted localStor
+Status: completed
+Time: 22:54:57
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/api/credentialStore.test.ts
+src/core/api/credentialStore.ts
+src/core/api/index.ts
+
+---
+2026-01-17: Implement MSE/EME capability detection utility
+Status: completed
+Time: 22:58:03
+Files Changed:
+src/core/player/capabilityDetector.ts
+src/core/player/capabilityDetector.test.ts
+src/core/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement MSE/EME capability detection utility
+Status: completed
+Time: 22:58:37
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/player/capabilityDetector.test.ts
+src/core/player/capabilityDetector.ts
+src/core/player/index.ts
+
+---
+2026-01-17: Implement PlayerAdapter interface for video playback abstraction
+Status: completed
+Time: 23:05:47
+Files Changed:
+src/core/player/BasePlayerAdapter.ts
+src/core/player/BasePlayerAdapter.test.ts
+src/core/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement PlayerAdapter interface for video playba
+Status: completed
+Time: 23:06:14
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/player/BasePlayerAdapter.test.ts
+src/core/player/BasePlayerAdapter.ts
+src/core/player/index.ts
+
+---
+2026-01-17: Implement ShakaPlayer adapter with HLS and DASH su
+Status: completed
+Time: 23:06:24
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/player/BasePlayerAdapter.test.ts
+src/core/player/BasePlayerAdapter.ts
+src/core/player/index.ts
+
+---
+2026-01-17: Implement NativePlayer adapter as fallback for direct streams
+Status: completed
+Time: 23:13:15
+Files Changed:
+src/core/player/NativePlayerAdapter.ts
+src/core/player/NativePlayerAdapter.test.ts
+src/core/player/index.ts
+src/types/html-media.d.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Implement NativePlayer adapter as fallback for dir
+Status: completed
+Time: 23:13:48
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/player/NativePlayerAdapter.test.ts
+src/core/player/NativePlayerAdapter.ts
+src/core/player/index.ts
+src/types/html-media.d.ts
+
+---
+2026-01-17: Implement player factory with capability-based selection
+Status: completed
+Time: 23:24:20
+Files Changed:
+src/core/player/PlayerFactory.ts
+src/core/player/PlayerFactory.test.ts
+src/core/player/ShakaPlayerAdapter.ts
+src/core/player/ShakaPlayerAdapter.test.ts
+src/core/player/NativePlayerAdapter.ts
+src/core/player/index.ts
+src/types/shaka-player.d.ts
+eslint.config.js
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Implement player factory with capability-based sel
+Status: completed
+Time: 23:24:43
+Files Changed:
+eslint.config.js
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/player/NativePlayerAdapter.ts
+src/core/player/PlayerFactory.test.ts
+src/core/player/PlayerFactory.ts
+src/core/player/ShakaPlayerAdapter.test.ts
+src/core/player/ShakaPlayerAdapter.ts
+src/core/player/index.ts
+src/types/shaka-player.d.ts
+
+---
+2026-01-17: Implement EPG parser for XMLTV format
+Status: completed
+Time: 23:28:00
+Files Changed:
+src/core/epg/xmltvParser.ts
+src/core/epg/xmltvParser.test.ts
+src/core/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement EPG parser for XMLTV format
+Status: completed
+Time: 23:28:03
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/index.ts
+src/core/epg/xmltvParser.test.ts
+src/core/epg/xmltvParser.ts
+
+---
+2026-01-17: Implement EPG cache with time-based invalidation
+Status: completed
+Time: 23:31:00
+Files Changed:
+src/core/epg/epgCache.ts
+src/core/epg/epgCache.test.ts
+src/core/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Implement EPG cache with time-based invalidation
+Status: completed
+Time: 23:30:56
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/epgCache.test.ts
+src/core/epg/epgCache.ts
+src/core/epg/index.ts
+
+---
+2026-01-17: Implement EPG time sync utility for accurate program times
+Status: completed
+Time: 23:34:00
+Files Changed:
+src/core/epg/timeSync.ts
+src/core/epg/timeSync.test.ts
+src/core/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Implement EPG time sync utility for accurate progr
+Status: completed
+Time: 23:34:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/index.ts
+src/core/epg/timeSync.test.ts
+src/core/epg/timeSync.ts
+
+---
+2026-01-17: Create Zustand store for source management (add, r
+Status: completed
+Time: 23:34:53
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/epg/index.ts
+src/core/epg/timeSync.test.ts
+src/core/epg/timeSync.ts
+
+---
+2026-01-17: Create Zustand store for channel state (categories, channels, current)
+Status: completed
+Time: 23:37:00
+Files Changed:
+src/core/stores/channelStore.ts
+src/core/stores/channelStore.test.ts
+src/core/stores/index.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for channel state (categories
+Status: completed
+Time: 23:37:25
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/stores/channelStore.test.ts
+src/core/stores/channelStore.ts
+src/core/stores/index.ts
+---
+2026-01-17: Create Zustand store for VOD state (categories, movies)
+Status: completed
+Time: 23:39:09
+Files Changed:
+src/core/stores/vodStore.ts
+src/core/stores/vodStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Create Zustand store for VOD state (categories, mo
+Status: completed
+Time: 23:39:23
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/index.ts
+src/core/stores/vodStore.test.ts
+src/core/stores/vodStore.ts
+
+---
+2026-01-17: Create Zustand store for series state (series, seasons, episodes)
+Status: completed
+Time: 23:41:27
+Files Changed:
+src/core/stores/seriesStore.ts
+src/core/stores/seriesStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for series state (series, sea
+Status: completed
+Time: 23:41:48
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/index.ts
+src/core/stores/seriesStore.test.ts
+src/core/stores/seriesStore.ts
+
+---
+2026-01-17: Create Zustand store for EPG state (programs by channel)
+Status: completed
+Time: 23:44:00
+Files Changed:
+src/core/stores/epgStore.ts
+src/core/stores/epgStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create Zustand store for EPG state (programs by ch
+Status: completed
+Time: 23:44:07
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/epgStore.test.ts
+src/core/stores/epgStore.ts
+src/core/stores/index.ts
+---
+2026-01-17: Create Zustand store for player state (playing, volume, quality)
+Status: completed
+Time: 23:45:52
+Files Changed:
+src/core/stores/playerStore.ts
+src/core/stores/playerStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Create Zustand store for player state (playing, vo
+Status: completed
+Time: 23:46:06
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/index.ts
+src/core/stores/playerStore.test.ts
+src/core/stores/playerStore.ts
+---
+2026-01-17: Create Zustand store for settings (quality preferences, buffer size)
+Status: completed
+Time: 23:48:00
+Files Changed:
+src/core/stores/settingsStore.ts
+src/core/stores/settingsStore.test.ts
+src/core/stores/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Create Zustand store for settings (quality prefere
+Status: completed
+Time: 23:48:30
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/stores/index.ts
+src/core/stores/settingsStore.test.ts
+src/core/stores/settingsStore.ts
+
+---
+2026-01-17: Create React Query hooks for fetching channels with caching
+Status: completed
+Time: 23:51:00
+Files Changed:
+package.json
+package-lock.json
+src/core/hooks/useChannelQueries.ts
+src/core/hooks/useChannelQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching channels wit
+Status: completed
+Time: 23:51:25
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useChannelQueries.test.tsx
+src/core/hooks/useChannelQueries.ts
+
+---
+2026-01-17: Create React Query hooks for fetching VOD content
+Status: completed
+Time: 23:53:30
+Files Changed:
+src/core/hooks/useVODQueries.ts
+src/core/hooks/useVODQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-17: Create React Query hooks for fetching VOD content
+Status: completed
+Time: 23:53:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useVODQueries.test.tsx
+src/core/hooks/useVODQueries.ts
+
+---
+2026-01-17: Create React Query hooks for fetching series content
+Status: completed
+Time: 23:56:48
+Files Changed:
+src/core/hooks/useSeriesQueries.ts
+src/core/hooks/useSeriesQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-17: Create React Query hooks for fetching series conte
+Status: completed
+Time: 23:57:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useSeriesQueries.test.tsx
+src/core/hooks/useSeriesQueries.ts
+
+---
+2026-01-17: Create React Query hooks for fetching EPG data
+Status: completed
+Time: 23:59:49
+Files Changed:
+src/core/hooks/useEPGQueries.ts
+src/core/hooks/useEPGQueries.test.tsx
+src/core/hooks/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Create React Query hooks for fetching EPG data
+Status: completed
+Time: 00:00:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useEPGQueries.test.tsx
+src/core/hooks/useEPGQueries.ts
+
+---
+2026-01-18: Build SourceSetup screen for first-launch onboardi
+Status: completed
+Time: 00:00:14
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/index.ts
+src/core/hooks/useEPGQueries.test.tsx
+src/core/hooks/useEPGQueries.ts
+---
+2026-01-18: Build XtreamLoginForm component with server/username/password fields
+Status: completed
+Time: 00:05:00
+Files Changed:
+src/features/sources/XtreamLoginForm.tsx
+src/features/sources/XtreamLoginForm.test.tsx
+src/features/sources/index.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build XtreamLoginForm component with server/userna
+Status: completed
+Time: 00:04:00
+Files Changed:
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+src/features/sources/XtreamLoginForm.test.tsx
+src/features/sources/XtreamLoginForm.tsx
+src/features/sources/index.ts
+---
+2026-01-18: Build M3UUrlForm component with URL input and validation
+Status: completed
+Time: 00:06:00
+Files Changed:
+src/features/sources/M3UUrlForm.tsx
+src/features/sources/M3UUrlForm.test.tsx
+src/features/sources/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build M3UUrlForm component with URL input and vali
+Status: completed
+Time: 00:06:33
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/sources/M3UUrlForm.test.tsx
+src/features/sources/M3UUrlForm.tsx
+src/features/sources/index.ts
+
+---
+2026-01-18: Build AddSourceModal for adding new IPTV sources
+Status: completed
+Time: 00:10:00
+Files Changed:
+src/features/sources/AddSourceModal.tsx
+src/features/sources/AddSourceModal.test.tsx
+src/features/sources/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build AddSourceModal for adding new IPTV sources
+Status: completed
+Time: 00:09:42
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/sources/AddSourceModal.test.tsx
+src/features/sources/AddSourceModal.tsx
+src/features/sources/index.ts
+
+---
+2026-01-18: Build SourceList component for managing saved sources
+Status: completed
+Time: 00:13:47
+Files Changed:
+src/features/sources/SourceList.tsx
+src/features/sources/SourceList.test.tsx
+src/features/sources/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build SourceList component for managing saved sour
+Status: completed
+Time: 00:14:15
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/sources/SourceList.test.tsx
+src/features/sources/SourceList.tsx
+src/features/sources/index.ts
+
+---
+2026-01-18: Build HomePage with main menu and MenuCard component
+Status: completed
+Time: 00:17:00
+Files Changed:
+src/features/home/HomePage.tsx
+src/features/home/HomePage.test.tsx
+src/features/home/MenuCard.tsx
+src/features/home/MenuCard.test.tsx
+src/features/home/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build HomePage with main menu (Live TV, VOD, Serie
+Status: completed
+Time: 00:17:37
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/home/HomePage.test.tsx
+src/features/home/HomePage.tsx
+src/features/home/MenuCard.test.tsx
+src/features/home/MenuCard.tsx
+src/features/home/index.ts
+
+---
+2026-01-18: Build LiveTVPage with category sidebar and channel grid
+Status: completed
+Time: 00:24:01
+Files Changed:
+src/features/live/LiveTVPage.tsx
+src/features/live/LiveTVPage.test.tsx
+src/features/live/CategoryList.tsx
+src/features/live/CategoryList.test.tsx
+src/features/live/ChannelGrid.tsx
+src/features/live/ChannelGrid.test.tsx
+src/features/live/ChannelCard.tsx
+src/features/live/ChannelCard.test.tsx
+src/features/live/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build LiveTVPage with category sidebar and channel
+Status: completed
+Time: 00:24:34
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/live/CategoryList.test.tsx
+src/features/live/CategoryList.tsx
+src/features/live/ChannelCard.test.tsx
+src/features/live/ChannelCard.tsx
+src/features/live/ChannelGrid.test.tsx
+src/features/live/ChannelGrid.tsx
+src/features/live/LiveTVPage.test.tsx
+src/features/live/LiveTVPage.tsx
+src/features/live/index.ts
+---
+2026-01-18: Build VODPage with category browsing and movie grid
+Status: completed
+Time: 00:30:00
+Files Changed:
+src/features/vod/VODPage.tsx
+src/features/vod/VODPage.test.tsx
+src/features/vod/VODCard.tsx
+src/features/vod/VODCard.test.tsx
+src/features/vod/VODGrid.tsx
+src/features/vod/VODGrid.test.tsx
+src/features/vod/VODCategoryList.tsx
+src/features/vod/VODCategoryList.test.tsx
+src/features/vod/VODDetails.tsx
+src/features/vod/VODDetails.test.tsx
+src/features/vod/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build VODPage with category browsing and movie gri
+Status: completed
+Time: 00:30:41
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/vod/VODCard.test.tsx
+src/features/vod/VODCard.tsx
+src/features/vod/VODCategoryList.test.tsx
+src/features/vod/VODCategoryList.tsx
+src/features/vod/VODDetails.test.tsx
+src/features/vod/VODDetails.tsx
+src/features/vod/VODGrid.test.tsx
+src/features/vod/VODGrid.tsx
+src/features/vod/VODPage.test.tsx
+src/features/vod/VODPage.tsx
+src/features/vod/index.ts
+
+---
+2026-01-18: Build SeriesPage with series grid browsing
+Status: completed
+Time: 00:34:30
+Files Changed:
+src/features/series/SeriesPage.tsx
+src/features/series/SeriesPage.test.tsx
+src/features/series/SeriesCard.tsx
+src/features/series/SeriesCard.test.tsx
+src/features/series/SeriesCategoryList.tsx
+src/features/series/SeriesCategoryList.test.tsx
+src/features/series/SeriesGrid.tsx
+src/features/series/SeriesGrid.test.tsx
+src/features/series/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build SeriesPage with series grid browsing
+Status: completed
+Time: 00:35:19
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/series/SeriesCard.test.tsx
+src/features/series/SeriesCard.tsx
+src/features/series/SeriesCategoryList.test.tsx
+src/features/series/SeriesCategoryList.tsx
+src/features/series/SeriesGrid.test.tsx
+src/features/series/SeriesGrid.tsx
+src/features/series/SeriesPage.test.tsx
+src/features/series/SeriesPage.tsx
+src/features/series/index.ts
+---
+2026-01-18: Build SeriesDetails screen with season and episode selection
+Status: completed
+Time: 00:40:07
+Files Changed:
+src/features/series/SeriesDetails.tsx
+src/features/series/SeriesDetails.test.tsx
+src/features/series/SeasonList.tsx
+src/features/series/SeasonList.test.tsx
+src/features/series/EpisodeList.tsx
+src/features/series/EpisodeList.test.tsx
+src/features/series/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build SeriesDetails screen with season and episode
+Status: completed
+Time: 00:40:39
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/series/EpisodeList.test.tsx
+src/features/series/EpisodeList.tsx
+src/features/series/SeasonList.test.tsx
+src/features/series/SeasonList.tsx
+src/features/series/SeriesDetails.test.tsx
+src/features/series/SeriesDetails.tsx
+src/features/series/index.ts
+---
+2026-01-18: Build EPGPage with full program guide grid
+Status: completed
+Time: 00:46:00
+Files Changed:
+src/features/epg/EPGPage.tsx
+src/features/epg/EPGPage.test.tsx
+src/features/epg/EPGGrid.tsx
+src/features/epg/EPGGrid.test.tsx
+src/features/epg/EPGProgram.tsx
+src/features/epg/EPGProgram.test.tsx
+src/features/epg/EPGTimeline.tsx
+src/features/epg/EPGTimeline.test.tsx
+src/features/epg/EPGChannelList.tsx
+src/features/epg/EPGChannelList.test.tsx
+src/features/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build EPGPage with full program guide grid
+Status: completed
+Time: 00:47:05
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/epg/EPGChannelList.test.tsx
+src/features/epg/EPGChannelList.tsx
+src/features/epg/EPGGrid.test.tsx
+src/features/epg/EPGGrid.tsx
+src/features/epg/EPGPage.test.tsx
+src/features/epg/EPGPage.tsx
+src/features/epg/EPGProgram.test.tsx
+src/features/epg/EPGProgram.tsx
+src/features/epg/EPGTimeline.test.tsx
+src/features/epg/EPGTimeline.tsx
+src/features/epg/index.ts
+
+---
+2026-01-18: Build MiniEPG component showing now/next for current channel
+Status: completed
+Time: 00:49:26
+Files Changed:
+src/features/epg/MiniEPG.tsx
+src/features/epg/MiniEPG.test.tsx
+src/features/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build MiniEPG component showing now/next for curre
+Status: completed
+Time: 00:49:55
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/epg/MiniEPG.test.tsx
+src/features/epg/MiniEPG.tsx
+src/features/epg/index.ts
+
+---
+2026-01-18: Build ProgramDetails modal with program information
+Status: completed
+Time: 00:52:48
+Files Changed:
+src/features/epg/ProgramDetails.tsx
+src/features/epg/ProgramDetails.test.tsx
+src/features/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build ProgramDetails modal with program informatio
+Status: completed
+Time: 00:53:03
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/epg/ProgramDetails.test.tsx
+src/features/epg/ProgramDetails.tsx
+src/features/epg/index.ts
+
+---
+2026-01-18: Build VideoPlayer component with Shaka integration
+Status: completed
+Time: 00:56:57
+Files Changed:
+src/features/player/VideoPlayer.tsx
+src/features/player/VideoPlayer.test.tsx
+src/features/player/useVideoPlayerControls.ts
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build VideoPlayer component with Shaka integration
+Status: completed
+Time: 00:57:20
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/VideoPlayer.test.tsx
+src/features/player/VideoPlayer.tsx
+src/features/player/index.ts
+src/features/player/useVideoPlayerControls.ts
+
+---
+2026-01-18: Build PlayerControls component (play/pause, seek, volume)
+Status: completed
+Time: 01:01:07
+Files Changed:
+src/features/player/PlayerControls.tsx
+src/features/player/PlayerControls.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build PlayerControls component (play/pause, seek, 
+Status: completed
+Time: 01:01:30
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/PlayerControls.test.tsx
+src/features/player/PlayerControls.tsx
+src/features/player/index.ts
+
+---
+2026-01-18: Build PlayerOverlay component showing channel info
+Status: completed
+Time: 01:05:26
+Files Changed:
+src/features/player/PlayerOverlay.tsx
+src/features/player/PlayerOverlay.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build PlayerOverlay component showing channel info
+Status: completed
+Time: 01:05:51
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/PlayerOverlay.test.tsx
+src/features/player/PlayerOverlay.tsx
+src/features/player/index.ts
+
+---
+2026-01-18: Build QualitySelector component for stream quality selection
+Status: completed
+Time: 01:08:30
+Files Changed:
+src/features/player/QualitySelector.tsx
+src/features/player/QualitySelector.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build QualitySelector component for stream quality
+Status: completed
+Time: 01:08:38
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/QualitySelector.test.tsx
+src/features/player/QualitySelector.tsx
+src/features/player/index.ts
+
+---
+2026-01-18: Implement player remote control handling (play/pause, channel up/down)
+Status: completed
+Time: 01:12:00
+Files Changed:
+src/features/player/usePlayerRemoteControl.ts
+src/features/player/usePlayerRemoteControl.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Implement player remote control handling (play/pau
+Status: completed
+Time: 01:12:00
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/index.ts
+src/features/player/usePlayerRemoteControl.test.tsx
+src/features/player/usePlayerRemoteControl.ts
+
+---
+2026-01-18: Build SettingsPage with sections for playback and sources
+Status: completed
+Time: 01:16:00
+Files Changed:
+src/features/settings/SettingsPage.tsx
+src/features/settings/SettingsPage.test.tsx
+src/features/settings/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build SettingsPage with sections for playback and 
+Status: completed
+Time: 01:15:50
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/settings/SettingsPage.test.tsx
+src/features/settings/SettingsPage.tsx
+src/features/settings/index.ts
+
+---
+2026-01-18: Build PlaybackSettings component (quality, buffer size)
+Status: completed
+Time: 01:18:00
+Files Changed:
+src/features/settings/PlaybackSettings.tsx
+src/features/settings/PlaybackSettings.test.tsx
+src/features/settings/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build PlaybackSettings component (quality, buffer 
+Status: completed
+Time: 01:19:10
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/settings/PlaybackSettings.test.tsx
+src/features/settings/PlaybackSettings.tsx
+src/features/settings/index.ts
+---
+2026-01-18: Build SourceSettings component for managing IPTV sources
+Status: completed
+Time: 01:21:33
+Files Changed:
+src/features/settings/SourceSettings.tsx
+src/features/settings/SourceSettings.test.tsx
+src/features/settings/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Build SourceSettings component for managing IPTV s
+Status: completed
+Time: 01:21:52
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/settings/SourceSettings.test.tsx
+src/features/settings/SourceSettings.tsx
+src/features/settings/index.ts
+
+---
+2026-01-18: Build AboutSection component with app version info
+Status: completed
+Time: 01:24:30
+Files Changed:
+src/features/settings/AboutSection.tsx
+src/features/settings/AboutSection.test.tsx
+src/features/settings/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Build AboutSection component with app version info
+Status: completed
+Time: 01:24:35
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/settings/AboutSection.test.tsx
+src/features/settings/AboutSection.tsx
+src/features/settings/index.ts
+
+---
+2026-01-18: Implement global error boundary with recovery UI
+Status: completed
+Time: 01:26:00
+Files Changed:
+src/core/components/ErrorBoundary.tsx
+src/core/components/ErrorBoundary.test.tsx
+src/core/components/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Implement global error boundary with recovery UI
+Status: completed
+Time: 01:26:29
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/components/ErrorBoundary.test.tsx
+src/core/components/ErrorBoundary.tsx
+src/core/components/index.ts
+
+---
+2026-01-18: Implement stream error handling with retry logic
+Status: completed
+Time: 01:37:00
+Files Changed:
+src/features/player/useStreamErrorHandler.ts
+src/features/player/useStreamErrorHandler.test.tsx
+src/features/player/StreamErrorDisplay.tsx
+src/features/player/StreamErrorDisplay.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+
+---
+2026-01-18: Implement stream error handling with retry logic
+Status: completed
+Time: 01:37:53
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/StreamErrorDisplay.test.tsx
+src/features/player/StreamErrorDisplay.tsx
+src/features/player/index.ts
+src/features/player/useStreamErrorHandler.test.tsx
+src/features/player/useStreamErrorHandler.ts
+---
+2026-01-18: Implement source validation on add (test connection)
+Status: completed
+Time: 01:41:32
+Files Changed:
+src/core/api/sourceValidator.ts
+src/core/api/sourceValidator.test.ts
+src/core/api/index.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Implement source validation on add (test connectio
+Status: completed
+Time: 01:41:51
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/api/index.ts
+src/core/api/sourceValidator.test.ts
+src/core/api/sourceValidator.ts
+
+---
+2026-01-18: Configure Vite build for production optimization
+Status: completed
+Time: 01:51:17
+Files Changed:
+vite.config.ts
+src/test/vite-config.test.ts
+src/core/hooks/useEPGQueries.ts
+src/features/epg/EPGPage.test.tsx
+src/features/settings/SettingsPage.test.tsx
+src/features/settings/SourceSettings.test.tsx
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Write unit tests for Xtream Codes API client
+Status: completed
+Time: 01:51:44
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/core/hooks/useEPGQueries.ts
+src/features/epg/EPGPage.test.tsx
+src/features/settings/SettingsPage.test.tsx
+src/features/settings/SourceSettings.test.tsx
+src/test/vite-config.test.ts
+vite.config.ts
+
+---
+2026-01-18: Create app icons (220x220 and 400x400 PNG)
+Status: completed
+Time: 01:55:00
+Files Changed:
+scripts/generate-icons.mjs
+public/icon-220x220.png
+public/icon-400x400.png
+public/favicon.png
+public/favicon-16.png
+index.html
+src/test/icons.test.ts
+package.json
+package-lock.json
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Create app icons (220x220 and 400x400 PNG)
+Status: completed
+Time: 01:56:09
+Files Changed:
+index.html
+package-lock.json
+package.json
+plans/PRD.md
+plans/progress.txt
+public/favicon-16.png
+public/favicon.png
+public/icon-220x220.png
+public/icon-400x400.png
+scripts/generate-icons.mjs
+src/test/icons.test.ts
+
+---
+2026-01-18: Create sideload documentation with step-by-step instructions
+Status: completed
+Time: 01:58:21
+Files Changed:
+docs/SIDELOAD.md
+src/test/sideload-docs.test.ts
+plans/PRD.md
+plans/progress.txt
+
+
+---
+2026-01-18: Create sideload documentation with step-by-step in
+Status: completed
+Time: 01:58:37
+Files Changed:
+docs/SIDELOAD.md
+plans/PRD.md
+plans/progress.txt
+src/test/sideload-docs.test.ts
+
+---
+2026-01-18: Test full app flow on actual VIDAA TV device
+Status: completed
+Time: 01:58:49
+Files Changed:
+docs/SIDELOAD.md
+plans/PRD.md
+plans/progress.txt
+src/test/sideload-docs.test.ts
+
+---
+2026-01-18: Fix any TV-specific navigation or playback issues
+Status: completed
+Time: 02:14:00
+Files Changed:
+src/core/navigation/KeyEventManager.ts (new)
+src/core/navigation/KeyEventManager.test.ts (new)
+src/core/navigation/useFocusOnMount.ts (new)
+src/core/navigation/useFocusOnMount.test.tsx (new)
+src/core/navigation/useBackHandler.ts
+src/core/navigation/useBackHandler.test.tsx
+src/core/navigation/index.ts
+src/core/components/Modal.tsx
+src/core/stores/playerStore.ts
+src/features/player/PlayerOverlay.tsx
+src/features/epg/ProgramDetails.tsx
+src/features/vod/VODDetails.tsx
+src/features/series/SeriesDetails.tsx
+plans/PRD.md
+plans/progress.txt
+
+Summary:
+- Created centralized KeyEventManager for priority-based key event handling
+- Eliminated key event listener conflicts between modals, player, and navigation
+- Fixed focus restoration using Norigin Spatial Navigation setFocus
+- Added controlsShownAt timestamp to player store for auto-hide timer reset
+- Standardized Back key handling across all modal components
+- Created useFocusOnMount and useFocusRestoration hooks for state transitions
+- All 2088 tests passing

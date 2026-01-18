@@ -2005,3 +2005,27 @@ src/features/epg/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build ProgramDetails modal with program informatio
+Status: completed
+Time: 00:53:03
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/epg/ProgramDetails.test.tsx
+src/features/epg/ProgramDetails.tsx
+src/features/epg/index.ts
+
+---
+2026-01-18: Build VideoPlayer component with Shaka integration
+Status: completed
+Time: 00:56:57
+Files Changed:
+src/features/player/VideoPlayer.tsx
+src/features/player/VideoPlayer.test.tsx
+src/features/player/useVideoPlayerControls.ts
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt
+

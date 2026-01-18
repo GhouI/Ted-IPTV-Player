@@ -45,3 +45,17 @@ export {
   resetDefaultStore,
 } from './credentialStore'
 export type { CredentialStoreOptions, CredentialStoreErrorCode } from './credentialStore'
+
+export {
+  validateSource,
+  validateXtreamSource,
+  validateM3USource,
+  isXtreamValidationResult,
+  isM3UValidationResult,
+  formatValidationSuccess,
+} from './sourceValidator'
+export type {
+  XtreamValidationResult,
+  M3UValidationResult,
+  SourceValidationResult as ValidationResult,
+} from './sourceValidator'

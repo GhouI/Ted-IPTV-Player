@@ -1850,3 +1850,39 @@ src/features/vod/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build VODPage with category browsing and movie gri
+Status: completed
+Time: 00:30:41
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/vod/VODCard.test.tsx
+src/features/vod/VODCard.tsx
+src/features/vod/VODCategoryList.test.tsx
+src/features/vod/VODCategoryList.tsx
+src/features/vod/VODDetails.test.tsx
+src/features/vod/VODDetails.tsx
+src/features/vod/VODGrid.test.tsx
+src/features/vod/VODGrid.tsx
+src/features/vod/VODPage.test.tsx
+src/features/vod/VODPage.tsx
+src/features/vod/index.ts
+
+---
+2026-01-18: Build SeriesPage with series grid browsing
+Status: completed
+Time: 00:34:30
+Files Changed:
+src/features/series/SeriesPage.tsx
+src/features/series/SeriesPage.test.tsx
+src/features/series/SeriesCard.tsx
+src/features/series/SeriesCard.test.tsx
+src/features/series/SeriesCategoryList.tsx
+src/features/series/SeriesCategoryList.test.tsx
+src/features/series/SeriesGrid.tsx
+src/features/series/SeriesGrid.test.tsx
+src/features/series/index.ts
+plans/PRD.md
+plans/progress.txt

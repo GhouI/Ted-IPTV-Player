@@ -124,8 +124,8 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Build VODPage with category browsing and movie grid
 - [x] Build VODCard component with poster and title
 - [x] Build VODDetails modal with movie info and play button
-- [ ] Build SeriesPage with series grid browsing
-- [ ] Build SeriesCard component with poster and title
+- [x] Build SeriesPage with series grid browsing
+- [x] Build SeriesCard component with poster and title
 - [ ] Build SeriesDetails screen with season and episode selection
 - [ ] Build SeasonList component for season navigation
 - [ ] Build EpisodeList component with episode cards

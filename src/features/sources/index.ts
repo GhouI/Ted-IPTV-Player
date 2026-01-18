@@ -6,3 +6,6 @@ export type { M3UUrlFormProps } from './M3UUrlForm'
 
 export { AddSourceModal } from './AddSourceModal'
 export type { AddSourceModalProps } from './AddSourceModal'
+
+export { SourceList } from './SourceList'
+export type { SourceListProps } from './SourceList'

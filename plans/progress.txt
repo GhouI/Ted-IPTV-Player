@@ -2097,3 +2097,25 @@ src/features/player/QualitySelector.test.tsx
 src/features/player/index.ts
 plans/PRD.md
 plans/progress.txt
+
+---
+2026-01-18: Build QualitySelector component for stream quality
+Status: completed
+Time: 01:08:38
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/player/QualitySelector.test.tsx
+src/features/player/QualitySelector.tsx
+src/features/player/index.ts
+
+---
+2026-01-18: Implement player remote control handling (play/pause, channel up/down)
+Status: completed
+Time: 01:12:00
+Files Changed:
+src/features/player/usePlayerRemoteControl.ts
+src/features/player/usePlayerRemoteControl.test.tsx
+src/features/player/index.ts
+plans/PRD.md
+plans/progress.txt

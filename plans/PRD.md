@@ -129,9 +129,9 @@ Build an open-source IPTV player as an HTML5 web application for VIDAA OS. The a
 - [x] Build SeriesDetails screen with season and episode selection
 - [x] Build SeasonList component for season navigation
 - [x] Build EpisodeList component with episode cards
-- [ ] Build EPGPage with full program guide grid
-- [ ] Build EPGGrid component with timeline and channel rows
-- [ ] Build EPGProgram component for individual program cells
+- [x] Build EPGPage with full program guide grid
+- [x] Build EPGGrid component with timeline and channel rows
+- [x] Build EPGProgram component for individual program cells
 - [ ] Build MiniEPG component showing now/next for current channel
 - [ ] Build ProgramDetails modal with program information
 - [ ] Build VideoPlayer component with Shaka integration

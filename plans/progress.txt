@@ -1918,3 +1918,37 @@ src/features/series/index.ts
 plans/PRD.md
 plans/progress.txt
 
+
+---
+2026-01-18: Build SeriesDetails screen with season and episode
+Status: completed
+Time: 00:40:39
+Files Changed:
+plans/PRD.md
+plans/progress.txt
+src/features/series/EpisodeList.test.tsx
+src/features/series/EpisodeList.tsx
+src/features/series/SeasonList.test.tsx
+src/features/series/SeasonList.tsx
+src/features/series/SeriesDetails.test.tsx
+src/features/series/SeriesDetails.tsx
+src/features/series/index.ts
+---
+2026-01-18: Build EPGPage with full program guide grid
+Status: completed
+Time: 00:46:00
+Files Changed:
+src/features/epg/EPGPage.tsx
+src/features/epg/EPGPage.test.tsx
+src/features/epg/EPGGrid.tsx
+src/features/epg/EPGGrid.test.tsx
+src/features/epg/EPGProgram.tsx
+src/features/epg/EPGProgram.test.tsx
+src/features/epg/EPGTimeline.tsx
+src/features/epg/EPGTimeline.test.tsx
+src/features/epg/EPGChannelList.tsx
+src/features/epg/EPGChannelList.test.tsx
+src/features/epg/index.ts
+plans/PRD.md
+plans/progress.txt
+
